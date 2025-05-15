@@ -1,35 +1,76 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {useState} from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+interface Todo {
+    id: number,
+    content: string,
+    done: boolean
+}
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function App() {
+    /* --- VARIABLES --- */
+
+    const [todos, setTodos] = useState<Todo[]>([])
+    const [inputValue, setInputValue] = useState('')
+
+    /* --- HELPERS --- */
+
+    function handleAddTodo(content: string) {
+        setTodos(prev => {
+            return [...prev, {
+                id: Date.now(),
+                content: content,
+                done: false
+            }];
+        })
+    }
+
+    function handleRemoveTodo(idToRemove: number) {
+        setTodos(prev => prev.filter(todo => todo.id !== idToRemove))
+    }
+
+    function handleCompleted(idToComplete: number) {
+        setTodos(prev => {
+                return prev.map(todo => {
+                        return todo.id === idToComplete ? {...todo, done: !todo.done} : todo;
+                    }
+                );
+            }
+        )
+    }
+
+    /* --- MAIN --- */
+
+    return (
+        <>
+            <div className="top">
+                <input
+                    type="text"
+                    value={inputValue}
+                    onChange={e => setInputValue(e.target.value)}/>
+
+                <button onClick={() => {
+                    if (inputValue.trim() !== '') {
+                        handleAddTodo(inputValue)
+                        setInputValue('')
+                    }
+                }}>Add</button>
+            </div>
+
+            <div className="bottom">
+                {
+                    todos.map((todo: Todo) => (
+                        <div key={todo.id}>
+                            <input type="checkbox" checked={todo.done} onChange={() => handleCompleted(todo.id)}/>
+                            {todo.content}
+
+                            <button onClick={() => handleRemoveTodo(todo.id)}>Delete</button>
+                        </div>
+                    ))
+                }
+            </div>
+        </>
+    )
 }
 
 export default App
