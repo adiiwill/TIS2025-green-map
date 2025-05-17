@@ -10,14 +10,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroui/button": "^2.2.19",
+    "@heroui/checkbox": "^2.3.18",
+    "@heroui/input": "^2.4.19",
+    "@heroui/system": "^2.4.15",
+    "@heroui/theme": "^2.4.15",
+    "@hugeicons/core-free-icons": "^1.0.14",
+    "@hugeicons/react": "^1.0.5",
+    "framer-motion": "^12.12.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",

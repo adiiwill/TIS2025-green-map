@@ -1,6 +1,13 @@
 import {useState} from 'react'
 import './App.css'
 
+import {Button} from "@heroui/button";
+import {Input} from "@heroui/input";
+import {Checkbox} from "@heroui/checkbox";
+
+import { HugeiconsIcon } from '@hugeicons/react'
+import {Add01Icon, Delete01Icon} from "@hugeicons/core-free-icons";
+
 interface Todo {
     id: number,
     content: string,
@@ -12,6 +19,8 @@ function App() {
 
     const [todos, setTodos] = useState<Todo[]>([])
     const [inputValue, setInputValue] = useState('')
+
+    const [isInputVisible, setInputVisibility] = useState(false);
 
     /* --- HELPERS --- */
 
@@ -43,31 +52,58 @@ function App() {
 
     return (
         <>
-            <div className="top">
-                <input
-                    type="text"
-                    value={inputValue}
-                    onChange={e => setInputValue(e.target.value)}/>
+            <div className="wrapper">
+                <div className="todos flex flex-col gap-1">
+                    {
+                        todos.map((todo: Todo) => (
+                            <div key={todo.id} className={"w-full flex justify-between"}>
+                                <Checkbox
+                                    checked={todo.done}
+                                    onChange={() => handleCompleted(todo.id)}
+                                    lineThrough
+                                >
+                                    {todo.content}
+                                </Checkbox>
 
-                <button onClick={() => {
-                    if (inputValue.trim() !== '') {
-                        handleAddTodo(inputValue)
-                        setInputValue('')
+                                <Button
+                                    color={"danger"}
+                                    variant={"light"}
+                                    radius={"full"}
+                                    isIconOnly
+                                    onPress={() => handleRemoveTodo(todo.id)}
+                                >
+                                    <HugeiconsIcon icon={Delete01Icon} />
+                                </Button>
+                            </div>
+                        ))
                     }
-                }}>Add</button>
-            </div>
+                </div>
 
-            <div className="bottom">
-                {
-                    todos.map((todo: Todo) => (
-                        <div key={todo.id}>
-                            <input type="checkbox" checked={todo.done} onChange={() => handleCompleted(todo.id)}/>
-                            {todo.content}
+                <div className="inputs">
+                    {isInputVisible ?
+                        <Input
+                            type="text"
+                            value={inputValue}
+                            placeholder={"Add new todo"}
+                            onChange={e => setInputValue(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (inputValue.trim() !== '' && e.key === "Enter") {
+                                    handleAddTodo(inputValue)
+                                    setInputValue('')
+                                }
+                            }}
+                        /> : ""}
 
-                            <button onClick={() => handleRemoveTodo(todo.id)}>Delete</button>
-                        </div>
-                    ))
-                }
+                    <Button
+                        color="primary"
+                        isIconOnly
+                        radius={"full"}
+                        size={"lg"}
+                        onPress={() => {setInputVisibility(!isInputVisible)}}
+                    >
+                        <HugeiconsIcon icon={Add01Icon} />
+                    </Button>
+                </div>
             </div>
         </>
     )
