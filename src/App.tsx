@@ -8,7 +8,7 @@ import {Checkbox} from "@heroui/checkbox";
 import {motion, AnimatePresence} from "framer-motion";
 
 import { HugeiconsIcon } from '@hugeicons/react'
-import {Add01Icon, Delete01Icon} from "@hugeicons/core-free-icons";
+import {Add01Icon, Delete01Icon, CleanIcon} from "@hugeicons/core-free-icons";
 
 interface Todo {
     id: number,
@@ -50,6 +50,10 @@ function App() {
         )
     }
 
+    function handleClearCompleted() {
+        setTodos(prev => prev.filter(todo => !todo.done))
+    }
+
     /* --- MAIN --- */
 
     return (
@@ -57,6 +61,25 @@ function App() {
             <div className="wrapper">
                 <div className="todos flex flex-col gap-1">
                     <AnimatePresence>
+                        {todos.filter(todo => todo.done).length >= 3 &&
+                            <motion.div
+                                layout={"position"}
+                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ type: "spring", stiffness: 500, damping: 50, duration: 0.1 }}
+                                className={"flex justify-center"}
+                            >
+                                <Button
+                                    color={"warning"}
+                                    variant={"ghost"}
+                                    onPress={() => handleClearCompleted()}
+                                >
+                                    <HugeiconsIcon icon={CleanIcon} /> Clear done
+                                </Button>
+                            </motion.div>
+                        }
+
                         {todos.map((todo: Todo) => (
                                 <motion.div
                                     key={todo.id}
