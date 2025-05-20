@@ -16,7 +16,7 @@ interface Todo {
     done: boolean
 }
 
-function App() {
+const App = () => {
     /* --- VARIABLES --- */
 
     const [todos, setTodos] = useState<Todo[]>([])
@@ -26,7 +26,7 @@ function App() {
 
     /* --- HELPERS --- */
 
-    function handleAddTodo(content: string) {
+    const handleAddTodo = (content: string) => {
         setTodos(prev => {
             return [...prev, {
                 id: Date.now(),
@@ -34,13 +34,13 @@ function App() {
                 done: false
             }];
         })
-    }
+    };
 
-    function handleRemoveTodo(idToRemove: number) {
+    const handleRemoveTodo = (idToRemove: number) => {
         setTodos(prev => prev.filter(todo => todo.id !== idToRemove))
-    }
+    };
 
-    function handleCompleted(idToComplete: number) {
+    const handleCompleted = (idToComplete: number) => {
         setTodos(prev => {
                 return prev.map(todo => {
                         return todo.id === idToComplete ? {...todo, done: !todo.done} : todo;
@@ -48,11 +48,11 @@ function App() {
                 );
             }
         )
-    }
+    };
 
-    function handleClearCompleted() {
+    const handleClearCompleted = () => {
         setTodos(prev => prev.filter(todo => !todo.done))
-    }
+    };
 
     /* --- MAIN --- */
 
