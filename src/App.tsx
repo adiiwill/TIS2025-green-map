@@ -1,14 +1,16 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import './App.css'
 
-import {Button} from "@heroui/button";
-import {Input} from "@heroui/input";
-import {Checkbox} from "@heroui/checkbox";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import { Checkbox } from "@heroui/checkbox";
 
-import {motion, AnimatePresence} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
+import { create } from "zustand";
 
 import { HugeiconsIcon } from '@hugeicons/react'
-import {Add01Icon, Delete01Icon, CleanIcon} from "@hugeicons/core-free-icons";
+import { Add01Icon, Delete01Icon, CleanIcon } from "@hugeicons/core-free-icons";
 
 interface Todo {
     id: number,
@@ -16,43 +18,39 @@ interface Todo {
     done: boolean
 }
 
+interface TodoStore {
+    todos: Todo[],
+    add: (content: string) => void,
+    remove: (id: number) => void,
+    updateDone: (id: number) => void,
+    clearCompleted: () => void
+}
+
+const useTodoStore = create<TodoStore>((set) => ({
+    todos: [],
+    add: (content: string) => set((state) => ({
+        todos: [...state.todos, {id: Date.now(), content, done: false}]
+    })),
+    remove: (id: number) => set((state) => ({
+        todos: state.todos.filter(todo => todo.id !== id)
+    })),
+    updateDone: (id: number) => set((state) => ({
+        todos: state.todos.map(todo =>
+            todo.id === id ? {...todo, done: !todo.done} : todo
+        )
+    })),
+    clearCompleted: () => set((state) => ({
+        todos: state.todos.filter(todo => !todo.done)
+    }))
+}))
+
 const App = () => {
     /* --- VARIABLES --- */
 
-    const [todos, setTodos] = useState<Todo[]>([])
     const [inputValue, setInputValue] = useState('')
-
     const [isInputVisible, setInputVisibility] = useState(false);
 
-    /* --- HELPERS --- */
-
-    const handleAddTodo = (content: string) => {
-        setTodos(prev => {
-            return [...prev, {
-                id: Date.now(),
-                content: content,
-                done: false
-            }];
-        })
-    };
-
-    const handleRemoveTodo = (idToRemove: number) => {
-        setTodos(prev => prev.filter(todo => todo.id !== idToRemove))
-    };
-
-    const handleCompleted = (idToComplete: number) => {
-        setTodos(prev => {
-                return prev.map(todo => {
-                        return todo.id === idToComplete ? {...todo, done: !todo.done} : todo;
-                    }
-                );
-            }
-        )
-    };
-
-    const handleClearCompleted = () => {
-        setTodos(prev => prev.filter(todo => !todo.done))
-    };
+    const { todos, add, remove, clearCompleted, updateDone } = useTodoStore()
 
     /* --- MAIN --- */
 
@@ -73,7 +71,7 @@ const App = () => {
                                 <Button
                                     color={"warning"}
                                     variant={"ghost"}
-                                    onPress={() => handleClearCompleted()}
+                                    onPress={() => clearCompleted()}
                                 >
                                     <HugeiconsIcon icon={CleanIcon} /> Clear done
                                 </Button>
@@ -92,7 +90,7 @@ const App = () => {
                                 >
                                     <Checkbox
                                         checked={todo.done}
-                                        onChange={() => handleCompleted(todo.id)}
+                                        onChange={() => updateDone(todo.id)}
                                         lineThrough
                                     >
                                         {todo.content}
@@ -103,7 +101,7 @@ const App = () => {
                                         variant={"light"}
                                         radius={"full"}
                                         isIconOnly
-                                        onPress={() => handleRemoveTodo(todo.id)}
+                                        onPress={() => remove(todo.id)}
                                     >
                                         <HugeiconsIcon icon={Delete01Icon} />
                                     </Button>
@@ -130,7 +128,7 @@ const App = () => {
                                     onChange={e => setInputValue(e.target.value)}
                                     onKeyDown={(e) => {
                                         if (inputValue.trim() !== '' && e.key === "Enter") {
-                                            handleAddTodo(inputValue)
+                                            add(inputValue)
                                             setInputValue('')
                                         }
                                     }}
