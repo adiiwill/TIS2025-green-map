@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { type Todo, useTodoStore } from '../../store/todoStore.ts'
-import { ScrollShadow } from '@heroui/scroll-shadow'
+import { ScrollShadow, Input } from '@heroui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TodoComponent } from './TodoComponent.tsx'
 import { ClearDoneButton } from './ClearDoneButton.tsx'
-import { Input } from '@heroui/input'
 import { StyledButton } from './style.ts'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
@@ -37,7 +36,12 @@ export const TodoApp = () => {
         <div className="inputs">
           <AnimatePresence>
             {isInputVisible && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.2 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.2 }}
+              >
                 <Input
                   type="text"
                   value={inputValue}

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button } from '@heroui/button'
+import { Button } from '@heroui/react'
 
 export const StyledButton = styled(Button)<{ $isVisible: boolean }>`
   transition: transform 0.3s ease;
