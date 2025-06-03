@@ -9,7 +9,7 @@ type Props = {
   todo: Todo
 }
 
-export const TodoComponent = ({ todo }: Props) => {
+const TodoComponent = ({ todo }: Props) => {
   const { remove, updateDone } = useTodoStore()
 
   return (
@@ -44,3 +44,5 @@ export const TodoComponent = ({ todo }: Props) => {
     </motion.div>
   )
 }
+
+export default TodoComponent

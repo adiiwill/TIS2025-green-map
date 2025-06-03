@@ -1,10 +1,10 @@
 import '../App.css'
-import { LoginForm } from '../components/login/LoginForm.tsx'
+import LoginForm from '../components/login/LoginForm.tsx'
 
 const Login = () => {
   return (
-    <div className="flex flex-row h-screen text-white">
-      <div className="hidden lg:w-[35vw] h-full bg-mainGreen relative lg:flex justify-center items-center">
+    <div className="flex flex-row h-screen text-white bg-mainGray relative sm:p-10 md:p-0">
+      <div className="hidden xl:w-[35vw] h-full bg-mainGreen relative xl:flex justify-center items-center">
         <img
           src="/wave-login.svg"
           alt="wave"
@@ -13,12 +13,12 @@ const Login = () => {
         <img src="/undraw-map-dark-re-36sy.svg" alt="Map" className="w-[80%]" />
       </div>
 
-      <div className="lg:w-[65vw] w-[100vw] p-10 flex flex-col lg:justify-center h-full font-merryweather bg-mainGray">
-        <div className="flex justify-center items-center">
-          <LoginForm />
-          <img src="/wave.svg" alt="Wave" className="w-screen absolute bottom-0 lg:hidden" />
-        </div>
-      </div>
+      <LoginForm />
+      <img
+        src="/wave.svg"
+        alt="Wave"
+        className="w-screen absolute bottom-0 left-0 xl:hidden"
+      />
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router'
-import { Dashboard } from './pages/Dashboard'
+import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import ProtectedRoute from './components/common/ProtectedRoute.tsx'
-import { TodoApp } from './components/todo/TodoApp.tsx'
+import TodoApp from './components/todo/TodoApp.tsx'
 
-export const Router = () => {
+const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<ProtectedRoute page={<Dashboard />} />} />
@@ -13,3 +13,5 @@ export const Router = () => {
     </Routes>
   )
 }
+
+export default Router

@@ -12,7 +12,7 @@ interface FormInputProps extends Partial<InputProps> {
   endIcon?: ReactNode
 }
 
-export const FormInput: FunctionComponent<FormInputProps> = ({
+const FormInput: FunctionComponent<FormInputProps> = ({
   register,
   label,
   error,
@@ -39,3 +39,5 @@ export const FormInput: FunctionComponent<FormInputProps> = ({
     </div>
   )
 }
+
+export default FormInput

@@ -5,7 +5,7 @@ import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/outline'
 
 import { useTodoStore } from '../../store/todoStore.ts'
 
-export const ClearDoneButton = () => {
+const ClearDoneButton = () => {
   const { clearCompleted } = useTodoStore()
 
   return (
@@ -23,3 +23,5 @@ export const ClearDoneButton = () => {
     </motion.div>
   )
 }
+
+export default ClearDoneButton

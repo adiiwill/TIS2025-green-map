@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { type Todo, useTodoStore } from '../../store/todoStore.ts'
 import { ScrollShadow, Input } from '@heroui/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { TodoComponent } from './TodoComponent.tsx'
-import { ClearDoneButton } from './ClearDoneButton.tsx'
+import TodoComponent from './TodoComponent.tsx'
+import ClearDoneButton from './ClearDoneButton.tsx'
 import { StyledButton } from './style.ts'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
 import './todostyle.css'
 
-export const TodoApp = () => {
+const TodoApp = () => {
   /* --- VARIABLES --- */
 
   const [inputValue, setInputValue] = useState('')
@@ -75,3 +75,5 @@ export const TodoApp = () => {
     </div>
   )
 }
+
+export default TodoApp
