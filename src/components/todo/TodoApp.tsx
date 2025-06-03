@@ -1,20 +1,15 @@
 import { useState } from 'react'
-import './App.css'
-
-import { useTodoStore, type Todo } from './store/todoStore'
-import { ClearDoneButton } from './components/todo/ClearDoneButton'
-import { TodoComponent } from './components/todo/TodoComponent'
-
-import { StyledButton } from './components/todo/style'
-
-import { ScrollShadow } from '@heroui/scroll-shadow'
-import { Input } from '@heroui/input'
-
-import { motion, AnimatePresence } from 'framer-motion'
-
+import { type Todo, useTodoStore } from '../../store/todoStore.ts'
+import { ScrollShadow, Input } from '@heroui/react'
+import { AnimatePresence, motion } from 'framer-motion'
+import TodoComponent from './TodoComponent.tsx'
+import ClearDoneButton from './ClearDoneButton.tsx'
+import { StyledButton } from './style.ts'
 import { PlusIcon } from '@heroicons/react/24/outline'
 
-const App = () => {
+import './todostyle.css'
+
+const TodoApp = () => {
   /* --- VARIABLES --- */
 
   const [inputValue, setInputValue] = useState('')
@@ -41,7 +36,12 @@ const App = () => {
         <div className="inputs">
           <AnimatePresence>
             {isInputVisible && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.2 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.2 }}
+              >
                 <Input
                   type="text"
                   value={inputValue}
@@ -76,4 +76,4 @@ const App = () => {
   )
 }
 
-export default App
+export default TodoApp
