@@ -1,15 +1,17 @@
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
-import { Button, Form } from '@heroui/react'
-import { ArrowRightIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
 
-import FormInput from '../common/FormInput.tsx'
-import { ExclamationCircleIcon } from '@heroicons/react/16/solid'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 
 import axios, { AxiosError } from 'axios'
+import { Button, Form } from '@heroui/react'
+import { ExclamationCircleIcon } from '@heroicons/react/16/solid'
+import { ArrowRightIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
+
 import { useAuthStore } from '../../store/authStore'
-import { useNavigate } from 'react-router'
+import { getErrorMessage } from '../../utils/apiErrorHandling'
+import FormInput from '../common/FormInput.tsx'
 
 interface Inputs {
   email: string
@@ -30,6 +32,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<Inputs>()
+
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     try {
       setIsLoading(true)
@@ -40,18 +43,14 @@ const LoginForm = () => {
       }
     } catch (err) {
       const error = err as AxiosError
-      if (error.request.status === 400) {
-        setLoginError('Invalid email or password')
-      } else {
-        setLoginError('Service is unavailable. Please try again later.')
-      }
+      setLoginError(getErrorMessage(error.request.status))
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="w-screen xl:pl-24 xl:w-[65vw] flex justify-center items-center mb-10 xl:mb-0 p-10 xl:p-0">
+    <div className="w-screen xl:pl-24 xl:w-[65vw] flex justify-center items-center mb-15 md:mb-40 xl:mb-0 p-10 xl:p-0">
       <Form
         onSubmit={handleSubmit(onSubmit)}
         className="gap-[46px] font-bold w-full xl:w-[470px] max-w-xl"
@@ -62,9 +61,9 @@ const LoginForm = () => {
             <h1 className="text-[32px] xl:text-5xl">Welcome back!</h1>
 
             {loginError && (
-              <div className="bg-[#FFC2C2] w-full rounded border-l-6 border-[#FF4545] text-[#FF4545] flex items-center p-3 gap-2">
-                <ExclamationCircleIcon className="w-6 h-6" />
-                <span className="font-lato text-base">{loginError}</span>
+              <div className="bg-[#FFC2C2] w-full rounded border-l-6 border-[#FF4545] text-[#FF4545] flex items-start p-3 gap-2">
+                <ExclamationCircleIcon className="w-6 h-6 flex-shrink-0" />
+                <span className="font-lato text-base break-words min-w-0">{loginError}</span>
               </div>
             )}
 
@@ -104,7 +103,7 @@ const LoginForm = () => {
                 }
                 type={showPassword ? 'text' : 'password'}
               />
-              <a href="#" className="font-lato self-end text-mainGreen">
+              <a href="/#" className="font-lato self-end text-mainGreen">
                 Forgot password?
               </a>
             </div>
@@ -126,7 +125,7 @@ const LoginForm = () => {
 
         <p className="font-lato self-center">
           Don't have an account?{' '}
-          <a href="#" className="text-mainGreen underline">
+          <a href="/register" className="text-mainGreen underline">
             Sign Up
           </a>
         </p>

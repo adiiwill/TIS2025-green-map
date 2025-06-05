@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "check": "npx lint-staged"
+    "lint-imports": "npx eslint --fix src/"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -19,6 +19,7 @@
     "@tailwindcss/postcss": "^4.1.7",
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.9.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "framer-motion": "^12.14.0",
     "lint-staged": "^16.0.0",
     "react": "^19.1.0",
@@ -47,8 +48,9 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint",
-      "prettier --write --ignore-unknown"
+      "npm run lint-imports",
+      "prettier --write --ignore-unknown",
+      "npm run lint"
     ]
   }
 }

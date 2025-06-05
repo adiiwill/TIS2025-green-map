@@ -1,8 +1,8 @@
 import { FunctionComponent, ReactNode } from 'react'
 
-import { Input, InputProps } from '@heroui/react'
-
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
+
+import { Input, InputProps } from '@heroui/react'
 
 interface FormInputProps extends Partial<InputProps> {
   register: UseFormRegisterReturn<string>
