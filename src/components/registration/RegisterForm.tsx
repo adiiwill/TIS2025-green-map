@@ -12,6 +12,14 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
 import RegisterPasswordCheck from './RegisterPasswordCheck'
 import { useAuthStore } from '../../store/authStore'
 import { getErrorMessage } from '../../utils/apiErrorHandling'
+import {
+  allPasswordValid,
+  eightCharMin,
+  oneLowerCase,
+  oneNumberChar,
+  oneSpecialChar,
+  oneUpperCase
+} from '../../utils/registerHelpers'
 import FormInput from '../common/FormInput'
 
 interface RegisterInputs {
@@ -63,7 +71,7 @@ const RegisterForm = () => {
         className="flex xl:flex-col gap-6 xl:gap-12 xl:items-baseline xl:mr-50 mb-30 md:mb-42 xl:mb-0"
       >
         {regError && (
-          <div className="bg-[#FFC2C2] max-w-[470px] rounded border-l-6 border-[#FF4545] text-[#FF4545] flex items-start p-3 gap-2">
+          <div className="bg-[#FFC2C2] max-w-[470px] w-full rounded border-l-6 border-[#FF4545] text-[#FF4545] flex items-start p-3 gap-2">
             <ExclamationCircleIcon className="w-6 h-6 flex-shrink-0" />
             <span className="font-lato text-base break-words min-w-0">{regError}</span>
           </div>
@@ -216,35 +224,5 @@ const RegisterForm = () => {
 }
 
 // HELPERS
-
-const eightCharMin = (pass: string = ''): boolean => {
-  return pass.length >= 8
-}
-
-const oneLowerCase = (pass: string = ''): boolean => {
-  return /[a-z]/.test(pass)
-}
-
-const oneUpperCase = (pass: string = ''): boolean => {
-  return /[A-Z]/.test(pass)
-}
-
-const oneSpecialChar = (pass: string = ''): boolean => {
-  return /\W/.test(pass)
-}
-
-const oneNumberChar = (pass: string = ''): boolean => {
-  return /[0-9]/.test(pass)
-}
-
-const allPasswordValid = (pass: string = ''): boolean => {
-  return (
-    eightCharMin(pass) &&
-    oneLowerCase(pass) &&
-    oneUpperCase(pass) &&
-    oneSpecialChar(pass) &&
-    oneNumberChar(pass)
-  )
-}
 
 export default RegisterForm

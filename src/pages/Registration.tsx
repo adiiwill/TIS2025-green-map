@@ -2,7 +2,7 @@ import RegisterForm from '../components/registration/RegisterForm'
 
 const Registration = () => {
   return (
-    <div className="flex flex-col relative bg-mainGray h-full xl:pl-16 items-center xl:items-baseline">
+    <div className="flex flex-col relative bg-mainGray min-h-screen xl:pl-16 items-center justify-center xl:items-baseline">
       <div className="flex flex-col max-w-[470px] xl:max-w-full w-screen gap-8 p-5">
         <img src="/street-map.png" alt="Street map" className="w-[125px]" />
         <h1 className="font-merryweather text-white text-3xl xl:text-[48px] font-bold">
