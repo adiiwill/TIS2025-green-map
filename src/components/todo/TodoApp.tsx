@@ -1,11 +1,13 @@
 import { useState } from 'react'
-import { type Todo, useTodoStore } from '../../store/todoStore.ts'
-import { ScrollShadow, Input } from '@heroui/react'
+
+import { Input, ScrollShadow } from '@heroui/react'
+import { PlusIcon } from '@heroicons/react/24/outline'
 import { AnimatePresence, motion } from 'framer-motion'
-import TodoComponent from './TodoComponent.tsx'
+
 import ClearDoneButton from './ClearDoneButton.tsx'
 import { StyledButton } from './style.ts'
-import { PlusIcon } from '@heroicons/react/24/outline'
+import TodoComponent from './TodoComponent.tsx'
+import { type Todo, useTodoStore } from '../../store/todoStore.ts'
 
 import './todostyle.css'
 
