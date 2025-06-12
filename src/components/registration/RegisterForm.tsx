@@ -10,7 +10,6 @@ import { ArrowRightIcon, EnvelopeIcon, LockClosedIcon } from '@heroicons/react/2
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
 
 import RegisterPasswordCheck from './RegisterPasswordCheck'
-import { useAuthStore } from '../../store/authStore'
 import { getErrorMessage } from '../../utils/apiErrorHandling'
 import {
   allPasswordValid,
@@ -32,7 +31,6 @@ interface RegisterInputs {
 
 const RegisterForm = () => {
   const navigate = useNavigate()
-  const { setToken } = useAuthStore()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false)
@@ -53,8 +51,7 @@ const RegisterForm = () => {
       const { email, password } = data
       const response = await axios.post('/api/auth/register', { email, password })
       if (response.status === 200) {
-        setToken(response.data.access_token)
-        navigate('/')
+        navigate('/login')
       }
     } catch (err) {
       const error = err as AxiosError

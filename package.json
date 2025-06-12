@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepare": "husky",
-    "lint-imports": "npx eslint --fix src/"
+    "lint-src": "npx eslint --fix src/"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -48,7 +48,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint-imports",
+      "npm run lint-src",
       "prettier --write --ignore-unknown",
       "npm run lint"
     ]

@@ -2,7 +2,7 @@ import { Button } from '@heroui/react'
 import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/outline'
 import { motion } from 'framer-motion'
 
-import { useTodoStore } from '../../store/todoStore.ts'
+import { useTodoStore } from '../../store/todoStore'
 
 const ClearDoneButton = () => {
   const { clearCompleted } = useTodoStore()

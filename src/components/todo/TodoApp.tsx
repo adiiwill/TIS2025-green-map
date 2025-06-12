@@ -4,10 +4,10 @@ import { Input, ScrollShadow } from '@heroui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { AnimatePresence, motion } from 'framer-motion'
 
-import ClearDoneButton from './ClearDoneButton.tsx'
-import { StyledButton } from './style.ts'
-import TodoComponent from './TodoComponent.tsx'
-import { type Todo, useTodoStore } from '../../store/todoStore.ts'
+import ClearDoneButton from './ClearDoneButton'
+import { StyledButton } from './style'
+import TodoComponent from './TodoComponent'
+import { type Todo, useTodoStore } from '../../store/todoStore'
 
 import './todostyle.css'
 

@@ -13,6 +13,15 @@ export interface TodoStore {
   remove: (id: number) => void
   updateDone: (id: number) => void
   clearCompleted: () => void
+  todoReset: () => void
+}
+
+interface State {
+  todos: Todo[]
+}
+
+const initialState: State = {
+  todos: []
 }
 
 export const useTodoStore = create<TodoStore>()(
@@ -29,12 +38,15 @@ export const useTodoStore = create<TodoStore>()(
         })),
       updateDone: (id: number) =>
         set((state) => ({
-          todos: state.todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo))
+          todos: state.todos.map((todo) =>
+            todo.id === id ? { ...todo, done: !todo.done } : todo
+          )
         })),
       clearCompleted: () =>
         set((state) => ({
           todos: state.todos.filter((todo) => !todo.done)
-        }))
+        })),
+      todoReset: () => set(initialState)
     }),
     { name: 'todos', storage: createJSONStorage(() => sessionStorage) }
   )

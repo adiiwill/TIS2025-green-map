@@ -2,7 +2,7 @@ import { Button, Checkbox } from '@heroui/react'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { motion } from 'framer-motion'
 
-import { type Todo, useTodoStore } from '../../store/todoStore.ts'
+import { type Todo, useTodoStore } from '../../store/todoStore'
 
 type Props = {
   todo: Todo
