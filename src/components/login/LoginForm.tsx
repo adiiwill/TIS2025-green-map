@@ -19,7 +19,7 @@ interface Inputs {
 }
 
 const LoginForm = () => {
-  const { setToken } = useAuthStore()
+  const { setToken, setEmail } = useAuthStore()
 
   const [showPassword, setShowPassword] = useState(false)
   const [loginError, setLoginError] = useState('')
@@ -39,6 +39,7 @@ const LoginForm = () => {
       const response = await axios.post('/api/auth/authenticate', data)
       if (response.status === 200) {
         setToken(response.data.access_token)
+        setEmail(data.email)
         navigate('/')
       }
     } catch (err) {
