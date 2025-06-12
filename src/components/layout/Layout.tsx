@@ -23,21 +23,21 @@ import {
   UserIcon
 } from '@heroicons/react/24/outline'
 
-import LayoutButton from './LayoutButton.tsx'
-import MobileLayout from './MobileLayout.tsx'
-import { useAuthStore } from '../../store/authStore.ts'
-import { useSidebarStore } from '../../store/sidebarStore.ts'
+import LayoutButton from './LayoutButton'
+import MobileLayout from './MobileLayout'
+import { useAuthStore } from '../../store/authStore'
+import { useSidebarStore } from '../../store/sidebarStore'
 
 interface LayoutComponentProps {
   title: string
-  extended: boolean
   children: JSX.Element
+  extended?: boolean
 }
 
 const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, children }) => {
   const { isExpanded, toggle } = useSidebarStore()
 
-  const { email, setEmail, setToken } = useAuthStore()
+  const { email, authReset } = useAuthStore()
   const username = email?.split('@')[0] || 'Unknown'
 
   const navigate = useNavigate()
@@ -61,13 +61,13 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
               className="w-8 h-8 bg-mainGreen border-white border-3 rounded-full flex justify-center items-center self-end translate-x-1/2 z-10 drop-shadow-md cursor-pointer"
             >
               {isExpanded ? (
-                <ChevronRightIcon className="w-6 h-6" />
+                <ChevronRightIcon className="w-5 h-5" />
               ) : (
-                <ChevronLeftIcon className="w-6 h-6" />
+                <ChevronLeftIcon className="w-5 h-5" />
               )}
             </button>
             <div className="w-full px-5 flex items-center justify-center mb-6">
-              <img src="/street-map.png" alt="Street map" className="w-32" />
+              <img src="/street-map.png" alt="Street map" className="w-20" />
             </div>
             <Dropdown className="w-full flex justify-center font-lato">
               <DropdownTrigger>
@@ -100,8 +100,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                   startContent={<ArrowLeftStartOnRectangleIcon className="w-5 h-5" />}
                   key={'logout'}
                   onPress={() => {
-                    setEmail('')
-                    setToken('')
+                    authReset()
                     navigate('/login')
                   }}
                 >

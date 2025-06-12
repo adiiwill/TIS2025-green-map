@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react'
 
 import { Navigate } from 'react-router'
 
-import { useAuthStore } from '../../store/authStore.ts'
+import { useAuthStore } from '../../store/authStore'
 
 interface ProtectedRouteProps {
   page: ReactElement

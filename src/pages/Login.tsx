@@ -1,4 +1,4 @@
-import LoginForm from '../components/login/LoginForm.tsx'
+import LoginForm from '../components/login/LoginForm'
 
 import '../App.css'
 

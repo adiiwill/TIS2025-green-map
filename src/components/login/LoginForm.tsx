@@ -11,7 +11,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
 
 import { useAuthStore } from '../../store/authStore'
 import { getErrorMessage } from '../../utils/apiErrorHandling'
-import FormInput from '../common/FormInput.tsx'
+import FormInput from '../common/FormInput'
 
 interface Inputs {
   email: string
