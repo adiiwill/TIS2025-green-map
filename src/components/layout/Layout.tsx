@@ -45,7 +45,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
   return (
     <>
       <div className="block lg:hidden">
-        <MobileLayout />
+        <MobileLayout extended={extended} />
         {children}
       </div>
       <div className="hidden lg:block">
