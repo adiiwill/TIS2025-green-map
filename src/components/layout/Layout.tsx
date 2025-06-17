@@ -49,10 +49,10 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
         {children}
       </div>
       <div className="hidden lg:block">
-        <div className="flex flex-row h-screen">
+        <div className="flex flex-row">
           <div
             className={cn(
-              'w-[200px] min-h-screen bg-mainGray flex flex-col items-center font-merryweather gap-6 pt-6 shadow-lg',
+              'w-[200px] min-h-screen bg-mainGray flex flex-col items-center font-merryweather gap-6 pt-6 shadow-lg shadow-black/10',
               isExpanded && 'w-[100px]'
             )}
           >
@@ -81,7 +81,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Account">
-                <DropdownItem key="profile" showDivider isDisabled>
+                <DropdownItem key={'profile'} showDivider isDisabled>
                   <div className="flex flex-col">
                     <span>{username}</span>
                     <span>{email}</span>
@@ -89,7 +89,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 </DropdownItem>
                 <DropdownItem
                   startContent={<UserIcon className="w-5 h-5" />}
-                  key="profile-btn"
+                  key={'profile-btn'}
                   onPress={() => navigate('/profile')}
                 >
                   Profile
@@ -130,7 +130,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
               />
             </span>
           </div>
-          <div className="flex flex-col flex-1 h-screen overflow-hidden">
+          <div className="flex flex-col w-full h-screen overflow-hidden">
             <div
               className={cn(
                 'bg-white w-full h-20 drop-shadow-md flex flex-col p-6 font-merryweather font-bold text-2xl gap-6',
@@ -159,7 +159,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 </>
               )}
             </div>
-            <div className="flex-1 overflow-auto">{children}</div>
+            <div className="flex-1 h-1 -z-1 min-h-0">{children}</div>
           </div>
         </div>
       </div>

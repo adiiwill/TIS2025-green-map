@@ -20,7 +20,7 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
   return (
     <>
       {extended && (
-        <div className="h-[180px] w-full fixed z-20 bg-white drop-shadow-md flex flex-col justify-center items-center p-6 gap-5">
+        <div className="h-[180px] bg-white drop-shadow-md flex flex-col justify-center items-center p-6 gap-5">
           <Input
             placeholder="Search for..."
             className="text-2xl"
@@ -37,7 +37,7 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
           </Button>
         </div>
       )}
-      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 px-3 w-[95%] max-w-[360px] h-[75px] font-bold font-merryweather bg-white drop-shadow-md rounded-sm flex items-center place-content-around gap-3">
+      <div className="z-40 px-3 w-[95%] max-w-[360px] h-[75px] font-bold font-merryweather bg-white drop-shadow-md absolute bottom-3 left-1/2 -translate-x-1/2 rounded-sm flex items-center place-content-around gap-3">
         <MobileLayoutLink href="/" text={'Home'} icon={<HomeIcon className="w-6 h-6" />} />
         <MobileLayoutLink
           href="/administration"
