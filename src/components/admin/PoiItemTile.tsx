@@ -1,12 +1,32 @@
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@heroui/react'
+import { FunctionComponent } from 'react'
+
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  useDisclosure
+} from '@heroui/react'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 
-const PoiItemTile = () => {
+import ModalHandler from './modals/ModalHandler.tsx'
+import { useModalStore } from '../../store/modalStore.ts'
+import { POI } from '../../store/poiStore'
+
+interface PoiItemTileProps {
+  item: POI
+}
+
+const PoiItemTile: FunctionComponent<PoiItemTileProps> = ({ item }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { setType } = useModalStore()
+
   return (
     <div className="w-full max-w-[375px] min-w-[300px] h-[325px] bg-white rounded-md p-4 drop-shadow-md relative">
       <div className="flex items-center justify-between bg-[#f2f2f2] p-3 rounded-md">
-        <span className="font-merryweather text-2xl">Test 1</span>
+        <span className="font-merryweather text-2xl">{item.name}</span>
         <Dropdown className="font-lato" placement="bottom-start" offset={5}>
           <DropdownTrigger>
             <Button variant="light" className="min-w-0 w-8 h-8 p-0">
@@ -17,7 +37,10 @@ const PoiItemTile = () => {
             <DropdownItem
               key="poi-edit-btn"
               startContent={<PencilSquareIcon className="w-5 h-5" />}
-              onPress={() => console.log('Edit clicked')}
+              onPress={() => {
+                setType('edit')
+                onOpen()
+              }}
             >
               Edit
             </DropdownItem>
@@ -26,7 +49,10 @@ const PoiItemTile = () => {
               startContent={<TrashIcon className="w-5 h-5" />}
               className="text-danger"
               color="danger"
-              onPress={() => console.log('Delete clicked')}
+              onPress={() => {
+                setType('delete')
+                onOpen()
+              }}
             >
               Delete
             </DropdownItem>
@@ -35,23 +61,28 @@ const PoiItemTile = () => {
       </div>
       <div className="flex items-center justify-between font-lato text-xl p-3 border-dashed border-[#d9d9d9] border-b-1 px-0 mt-2">
         <span className="text-[#70757a]">Category</span>
-        <span>Example</span>
+        <span>{item.category}</span>
       </div>
       <div className="flex items-center justify-between font-lato text-xl p-3 border-dashed border-[#d9d9d9] border-b-1 px-0">
         <span className="text-[#70757a]">Longitude</span>
-        <span>-2.2426</span>
+        <span>{item.longitude}</span>
       </div>
       <div className="flex items-center justify-between font-lato text-xl p-3 border-dashed border-[#d9d9d9] border-b-1 px-0">
         <span className="text-[#70757a]">Latitude</span>
-        <span>51.3762</span>
+        <span>{item.latitude}</span>
       </div>
       <Button
         variant="bordered"
         radius="sm"
         className="w-full mt-5 font-merryweather text-2xl border-black border-1 p-6"
+        onPress={() => {
+          setType('review')
+          onOpen()
+        }}
       >
         View
       </Button>
+      <ModalHandler isOpen={isOpen} onOpen={onOpen} onClose={onClose} item={item} />
     </div>
   )
 }

@@ -10,6 +10,7 @@ interface FormInputProps extends Partial<InputProps> {
   error?: FieldError
   startIcon?: ReactNode
   endIcon?: ReactNode
+  classNames?: InputProps['classNames']
 }
 
 const FormInput: FunctionComponent<FormInputProps> = ({
@@ -18,10 +19,12 @@ const FormInput: FunctionComponent<FormInputProps> = ({
   error,
   startIcon,
   endIcon,
+  classNames,
+  className,
   ...props
 }) => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className={`flex flex-col gap-1 font-lato ${className ?? ''}`}>
       <Input
         type="text"
         radius="sm"
@@ -32,7 +35,8 @@ const FormInput: FunctionComponent<FormInputProps> = ({
         {...register}
         {...props}
         classNames={{
-          label: '!text-white text-xl'
+          label: '!text-white text-xl',
+          ...classNames
         }}
       />
       {error && <p className="text-red-600 text-sm">{error.message}</p>}

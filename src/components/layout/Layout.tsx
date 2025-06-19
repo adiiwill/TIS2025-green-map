@@ -146,7 +146,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                       placeholder="Search for..."
                       className="max-w-[300px]"
                       variant="bordered"
-                      startContent={<MagnifyingGlassIcon className="w-5 h-5" />}
+                      startContent={<MagnifyingGlassIcon className="w-6 h-6 text-gray-500" />}
                       radius="sm"
                     />
                     <Button
@@ -159,7 +159,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 </>
               )}
             </div>
-            <div className="flex-1 overflow-auto">{children}</div>
+            <div className="overflow-y-auto">{children}</div>
           </div>
         </div>
       </div>

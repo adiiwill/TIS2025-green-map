@@ -25,7 +25,7 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
             placeholder="Search for..."
             className="text-2xl"
             variant="bordered"
-            startContent={<MagnifyingGlassIcon className="w-8 h-8" />}
+            startContent={<MagnifyingGlassIcon className="w-8 h-8 text-gray-500" />}
             radius="sm"
             size="lg"
           />
