@@ -2,11 +2,11 @@ import { FunctionComponent } from 'react'
 
 import { Modal } from '@heroui/react'
 
-import DeleteConfirmationModal from './DeleteConfirmationModal.tsx'
-import PoiFormModal from './PoiFormModal.tsx'
-import PoiReviewModal from './PoiReviewModal.tsx'
-import { useModalStore } from '../../../store/modalStore.ts'
-import { POI } from '../../../store/poiStore.ts'
+import DeleteConfirmationModal from './DeleteConfirmationModal'
+import PoiFormModal from './PoiFormModal'
+import PoiReviewModal from './PoiReviewModal'
+import { useModalStore } from '../../../store/modalStore'
+import { POI } from '../../../store/poiStore'
 
 interface ModalHandlerProps {
   item: POI

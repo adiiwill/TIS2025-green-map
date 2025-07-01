@@ -11,8 +11,8 @@ import {
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 
-import ModalHandler from './modals/ModalHandler.tsx'
-import { useModalStore } from '../../store/modalStore.ts'
+import ModalHandler from './modals/ModalHandler'
+import { useModalStore } from '../../store/modalStore'
 import { POI } from '../../store/poiStore'
 
 interface PoiItemTileProps {

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import PoiItemTile from '../components/admin/PoiItemTile.tsx'
+import PoiItemTile from '../components/admin/PoiItemTile'
 import PoiSkeleton from '../components/admin/PoiSkeleton'
 import Layout from '../components/layout/Layout'
-import { usePOIStore } from '../store/poiStore.ts'
+import { usePOIStore } from '../store/poiStore'
 
 const Admin = () => {
   const { filteredPois, allPoi, getAllPoi } = usePOIStore()

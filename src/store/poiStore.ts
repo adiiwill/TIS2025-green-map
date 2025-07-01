@@ -2,7 +2,7 @@ import axios from 'axios'
 import { create } from 'zustand/index'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-import { useAuthStore } from './authStore.ts'
+import { useAuthStore } from './authStore'
 
 export interface POI {
   id: number

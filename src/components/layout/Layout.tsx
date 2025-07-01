@@ -162,7 +162,6 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 <>
                   <span className="h-[1px] w-full bg-[#70757A]"></span>
                   <div className="flex flex-row place-content-between">
-                    {/*  TODO: Make search functional (use: https://lodash.com/docs/#debounce)  */}
                     <Input
                       placeholder="Search for..."
                       className="max-w-[300px]"
