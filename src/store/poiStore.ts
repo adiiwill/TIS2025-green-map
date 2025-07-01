@@ -27,21 +27,25 @@ interface POIData {
 
 interface POIStore {
   allPoi: POIData
+  filteredPois: POI[]
 
   updatePoi: (poi: POI) => void
   deletePoi: (id: number) => void
   getAllPoi: () => Promise<boolean>
   addPoi: (poi: POI) => void
+  searchPoi: (query: string) => void
 
   poiReset: () => void
 }
 
 interface State {
   allPoi: POIData
+  filteredPois: POI[]
 }
 
 const initialState: State = {
-  allPoi: { pointOfInterests: [], numberOfItems: 0, numberOfPages: 0 }
+  allPoi: { pointOfInterests: [], numberOfItems: 0, numberOfPages: 0 },
+  filteredPois: []
 }
 
 export const usePOIStore = create<POIStore>()(
@@ -49,10 +53,15 @@ export const usePOIStore = create<POIStore>()(
     (set, get) => ({
       ...initialState,
       allPoi: { pointOfInterests: [], numberOfItems: 0, numberOfPages: 0 },
+      filteredPois: [],
       updatePoi: async (poi: POI) => {
+        const token = useAuthStore.getState().token
         try {
-          const response = await axios.put(`/api/poi/${poi.id}`, poi)
+          const response = await axios.put(`/api/poi/${poi.id}`, poi, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
           set(() => ({ allPoi: response.data }))
+          await get().getAllPoi()
         } catch (error) {
           console.log(error)
         }
@@ -63,14 +72,17 @@ export const usePOIStore = create<POIStore>()(
           await axios.delete(`/api/poi/${id}`, {
             headers: { Authorization: `Bearer ${token}` }
           })
-          get().getAllPoi()
+          await get().getAllPoi()
         } catch (error) {
           console.log(error)
         }
       },
       addPoi: async (poi: POI) => {
+        const token = useAuthStore.getState().token
         try {
-          await axios.post('/api/poi', poi)
+          await axios.post('/api/poi', poi, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
           await get().getAllPoi()
         } catch (error) {
           console.log(error)
@@ -82,12 +94,35 @@ export const usePOIStore = create<POIStore>()(
           const response = await axios.get('/api/poi', {
             headers: { Authorization: `Bearer ${token}` }
           })
-          set(() => ({ allPoi: response.data }))
-          return false // Success
+          set(() => ({ allPoi: response.data, filteredPoi: response.data.pointOfInterests }))
+          return false
         } catch (error) {
           console.log(error)
-          return true // Error
+          return true
         }
+      },
+      searchPoi: (query: string): void => {
+        if (!query || query.trim() === '') {
+          get().filteredPois = get().allPoi.pointOfInterests
+        }
+
+        const searchTerm = query.toLowerCase().trim()
+        const { pointOfInterests } = get().allPoi
+
+        set({
+          filteredPois: pointOfInterests.filter((poi) => {
+            return (
+              poi.name.toLowerCase().includes(searchTerm) ||
+              poi.category.toLowerCase().includes(searchTerm) ||
+              poi.subCategory.toLowerCase().includes(searchTerm) ||
+              poi.description.toLowerCase().includes(searchTerm) ||
+              poi.address.toLowerCase().includes(searchTerm) ||
+              poi.email.toLowerCase().includes(searchTerm) ||
+              poi.phoneNumber.toLowerCase().includes(searchTerm) ||
+              poi.openingHours.toLowerCase().includes(searchTerm)
+            )
+          })
+        })
       },
 
       poiReset: () => set(initialState)

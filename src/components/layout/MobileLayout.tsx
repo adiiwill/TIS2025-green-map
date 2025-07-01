@@ -11,12 +11,15 @@ import {
 } from '@heroicons/react/24/outline'
 
 import MobileLayoutLink from './MobileLayoutLink'
+import { usePOIStore } from '../../store/poiStore'
 
 interface MobileLayoutProps {
   extended?: boolean
 }
 
 const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
+  const { searchPoi } = usePOIStore()
+
   return (
     <>
       {extended && (
@@ -28,6 +31,7 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
             startContent={<MagnifyingGlassIcon className="w-8 h-8 text-gray-500" />}
             radius="sm"
             size="lg"
+            onChange={(e) => searchPoi(e.target.value)}
           />
           <Button
             className="flex items-center gap-1 bg-mainGreen text-white text-2xl p-6 w-full"

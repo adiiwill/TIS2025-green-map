@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react'
 import { Button, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/react'
 import { TrashIcon } from '@heroicons/react/24/solid'
 
-import { usePOIStore } from '../../../store/poiStore.ts'
+import { usePOIStore } from '../../../store/poiStore'
 
 interface DeleteConfirmationModalProps {
   id: number

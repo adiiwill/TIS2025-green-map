@@ -1,4 +1,4 @@
-import { FunctionComponent, JSX } from 'react'
+import { FunctionComponent, JSX, useCallback, useState } from 'react'
 
 import { useNavigate } from 'react-router'
 
@@ -9,7 +9,8 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Input
+  Input,
+  Modal
 } from '@heroui/react'
 import {
   ArrowLeftStartOnRectangleIcon,
@@ -22,11 +23,14 @@ import {
   PlusIcon,
   UserIcon
 } from '@heroicons/react/24/outline'
+import { debounce } from 'lodash'
 
 import LayoutButton from './LayoutButton'
 import MobileLayout from './MobileLayout'
 import { useAuthStore } from '../../store/authStore'
+import { usePOIStore } from '../../store/poiStore'
 import { useSidebarStore } from '../../store/sidebarStore'
+import PoiFormModal from '../admin/modals/PoiFormModal'
 
 interface LayoutComponentProps {
   title: string
@@ -35,12 +39,28 @@ interface LayoutComponentProps {
 }
 
 const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, children }) => {
+  const { searchPoi } = usePOIStore()
+
+  const debouncedSearch = useCallback(
+    debounce((value) => searchPoi(value), 800),
+    [searchPoi]
+  )
+
   const { isExpanded, toggle } = useSidebarStore()
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
   const { email, authReset } = useAuthStore()
   const username = email?.split('@')[0] || 'Unknown'
 
   const navigate = useNavigate()
+
+  const handleAddNew = () => {
+    setIsAddModalOpen(true)
+  }
+
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false)
+  }
 
   return (
     <>
@@ -142,16 +162,19 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 <>
                   <span className="h-[1px] w-full bg-[#70757A]"></span>
                   <div className="flex flex-row place-content-between">
+                    {/*  TODO: Make search functional (use: https://lodash.com/docs/#debounce)  */}
                     <Input
                       placeholder="Search for..."
                       className="max-w-[300px]"
                       variant="bordered"
                       startContent={<MagnifyingGlassIcon className="w-6 h-6 text-gray-500" />}
                       radius="sm"
+                      onChange={(e) => debouncedSearch(e.currentTarget.value)}
                     />
                     <Button
                       className="flex items-center gap-1 bg-mainGreen text-white px-12"
                       radius="sm"
+                      onPress={handleAddNew}
                     >
                       <PlusIcon className="w-6 h-6" /> Add New
                     </Button>
@@ -163,6 +186,17 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={handleCloseAddModal}
+        backdrop="blur"
+        placement="center"
+        radius="sm"
+        size="3xl"
+      >
+        <PoiFormModal onClose={handleCloseAddModal} />
+      </Modal>
     </>
   )
 }

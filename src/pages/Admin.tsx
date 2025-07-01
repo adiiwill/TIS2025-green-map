@@ -6,7 +6,7 @@ import Layout from '../components/layout/Layout'
 import { usePOIStore } from '../store/poiStore.ts'
 
 const Admin = () => {
-  const { allPoi, getAllPoi } = usePOIStore()
+  const { filteredPois, allPoi, getAllPoi } = usePOIStore()
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -56,7 +56,7 @@ const Admin = () => {
     <Layout title="Administration" extended>
       <div className="bg-[#f2f2f2] min-h-screen">
         <div className="grid grid-cols-[repeat(auto-fit,375px)] justify-center gap-6 overflow-auto p-4 lg:p-14 pt-[200px] pb-[100px]">
-          {allPoi.pointOfInterests.map((poi) => (
+          {filteredPois.map((poi) => (
             <PoiItemTile key={poi.id} item={poi} />
           ))}
         </div>

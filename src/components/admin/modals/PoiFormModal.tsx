@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
@@ -8,9 +8,11 @@ import { ScrollShadow } from '@heroui/react'
 import { ClockIcon } from '@heroicons/react/24/outline'
 import { MinusIcon } from '@heroicons/react/24/solid'
 import { Time } from '@internationalized/date'
+import { isValidPhoneNumber } from 'libphonenumber-js'
 
 import { CustomPhoneInput } from './style.ts'
 import { POI } from '../../../store/poiStore'
+import { usePOIStore } from '../../../store/poiStore'
 import { formatTime, parseTimeFormat } from '../../../utils/timeUtils'
 import FormInput from '../../common/FormInput'
 
@@ -30,12 +32,39 @@ interface Inputs {
   email: string
   phoneNumber: string
   address: string
+  openingTime: Time | null
+  closingTime: Time | null
   openingHours: string
   longitude: number
   latitude: number
 }
 
 const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) => {
+  const { updatePoi, addPoi } = usePOIStore()
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors }
+  } = useForm<Inputs>()
+
+  useEffect(() => {
+    if (item?.openingHours) {
+      const times = item.openingHours.split('-')
+      const openTime = parseTimeFormat(times[0])
+      const closeTime = parseTimeFormat(times[1])
+
+      setOpeningTime(openTime)
+      setClosingTime(closeTime)
+
+      // Set the form values too
+      setValue('openingTime', openTime)
+      setValue('closingTime', closeTime)
+    }
+  }, [item, setValue])
+
   const [openingTime, setOpeningTime] = useState<Time | null>(
     item?.openingHours ? parseTimeFormat(item.openingHours.split('-')[0]) : null
   )
@@ -43,29 +72,42 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
     item?.openingHours ? parseTimeFormat(item.openingHours.split('-')[1]) : null
   )
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors }
-  } = useForm<Inputs>()
-
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    const formattedData = {
-      ...data,
+    const formattedData: Omit<POI, 'id'> | POI = {
+      ...(item && { id: item.id }),
+      name: data.name,
+      category: data.category,
+      subCategory: data.subCategory,
+      description: data.description,
+      url: data.url,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      address: data.address,
+      longitude: Number(data.longitude),
+      latitude: Number(data.latitude),
       openingHours: `${formatTime(openingTime)}-${formatTime(closingTime)}`
     }
-    console.log(formattedData)
+
+    if (item) {
+      updatePoi(formattedData as POI)
+      onClose()
+    } else {
+      addPoi(formattedData as POI)
+      onClose()
+    }
   }
 
   return (
     <ModalContent>
-      <ModalHeader>{item ? `Editing "${item.name}"` : 'Add new'}</ModalHeader>
+      <ModalHeader className="text-2xl">
+        {item ? `Editing "${item.name}"` : 'Add new'}
+      </ModalHeader>
       <ModalBody>
         <ScrollShadow>
           <Form
+            id="poi-form"
             onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-1 grid-rows-6 xl:grid-cols-2 gap-4 max-h-[500px] pt-1"
+            className="flex items-center xl:grid gap-y-6 xl:gap-y-5 xl:gap-x-4 xl:grid-cols-2 max-h-[500px] xl:max-h-screen py-4"
           >
             <FormInput
               label="Name"
@@ -74,8 +116,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               })}
               error={errors.name}
               defaultValue={item && item.name}
+              placeholder=" "
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-1"
+              className="col-start-1 row-start-1 w-[90%]"
             />
 
             <FormInput
@@ -85,8 +128,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               })}
               error={errors.category}
               defaultValue={item && item.category}
+              placeholder=" "
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-2"
+              className="col-start-1 row-start-2 w-[90%]"
             />
 
             <FormInput
@@ -96,19 +140,25 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               })}
               error={errors.description}
               defaultValue={item && item.description}
+              placeholder=" "
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-3"
+              className="col-start-1 row-start-3 w-[90%]"
             />
 
             <FormInput
               label="E-mail"
               register={register('email', {
-                required: { value: true, message: 'Field is required' }
+                required: { value: true, message: 'Field is required' },
+                pattern: {
+                  value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                  message: 'Invalid email address'
+                }
               })}
               error={errors.email}
               defaultValue={item && item.email}
+              placeholder="Eg. myemail@gmail.com"
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-4"
+              className="col-start-1 row-start-4 w-[90%]"
             />
 
             <FormInput
@@ -118,8 +168,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               })}
               error={errors.address}
               defaultValue={item && item.address}
+              placeholder=" "
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-5"
+              className="col-start-1 row-start-5 w-[90%]"
             />
 
             <FormInput
@@ -129,8 +180,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               })}
               error={errors.longitude}
               defaultValue={item && `${item.longitude}`}
+              placeholder="Eg. 2.2345"
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-6"
+              className="col-start-1 row-start-6 w-[90%]"
             />
 
             <FormInput
@@ -140,26 +192,40 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               })}
               error={errors.subCategory}
               defaultValue={item && item.subCategory}
+              placeholder=" "
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-2 row-start-2"
+              className="col-start-2 row-start-2 w-[90%]"
             />
             <FormInput
               label="URL"
               register={register('url', {
-                required: { value: true, message: 'Field is required' }
+                required: { value: true, message: 'Field is required' },
+                pattern: {
+                  value: /^www\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: 'Enter a valid URL'
+                }
               })}
               error={errors.url}
               defaultValue={item && item.url}
+              placeholder="Eg. www.example.com"
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-2 row-start-3"
+              className="col-start-2 row-start-3 w-[90%]"
             />
 
-            {/*  TODO: Phone number  */}
-            <div className="col-start-2 row-start-4 -translate-y-1">
+            <div className="col-start-2 row-start-4 -translate-y-[2px] w-[90%] z-40">
               <span className="font-merryweather">Phone number</span>
               <Controller
                 control={control}
                 name="phoneNumber"
+                rules={{
+                  validate: (value) => {
+                    if (!isValidPhoneNumber(value, 'HU')) {
+                      return 'Please enter a valid phone number'
+                    }
+
+                    return true
+                  }
+                }}
                 defaultValue={item && item.phoneNumber}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <CustomPhoneInput
@@ -167,35 +233,73 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                     value={value}
                     onBlur={onBlur}
                     onChange={onChange}
-                    className="font-lato mt-1"
+                    className="font-lato mt-1 w-full"
                   />
                 )}
               />
+              <p className="text-red-600 text-sm mt-1">{errors.phoneNumber?.message}</p>
             </div>
 
-            {/*  TODO: Opening hours  */}
-            <div className="flex flex-row gap-1 col-start-2 row-start-5 self-end -translate-y-[0.30rem]">
-              <TimeInput
-                endContent={<ClockIcon className="w-6 h-6" />}
-                radius="sm"
-                hourCycle={12}
-                labelPlacement="outside"
-                label="Opening hours"
-                classNames={{
-                  label: 'text-md font-merryweather'
-                }}
-                value={openingTime}
-                onChange={setOpeningTime}
-              />
+            <div className="flex flex-row items-center gap-1 col-start-2 row-start-5 w-[90%] xl:-translate-y-[2px] relative">
+              <div className="w-full">
+                <Controller
+                  name="openingTime"
+                  control={control}
+                  rules={{
+                    required: { value: true, message: 'Field is required' }
+                  }}
+                  render={({ field: { onChange, onBlur } }) => (
+                    <TimeInput
+                      value={openingTime ?? null}
+                      onChange={(val) => {
+                        onChange(val)
+                        setOpeningTime(val)
+                      }}
+                      onBlur={onBlur}
+                      endContent={<ClockIcon className="w-6 h-6" />}
+                      radius="sm"
+                      hourCycle={12}
+                      labelPlacement="outside"
+                      label="Opening time"
+                      classNames={{ label: 'text-md font-merryweather' }}
+                      className="w-full"
+                    />
+                  )}
+                />
+                {errors.openingTime && (
+                  <p className="text-red-600 text-sm mt-1">{errors.openingTime.message}</p>
+                )}
+              </div>
               <MinusIcon className="w-4 mt-8" />
-              <TimeInput
-                endContent={<ClockIcon className="w-6 h-6" />}
-                radius="sm"
-                hourCycle={12}
-                className="mt-7.5"
-                value={closingTime}
-                onChange={setClosingTime}
-              />
+              <div className="w-full">
+                <Controller
+                  name="closingTime"
+                  control={control}
+                  rules={{
+                    required: { value: true, message: 'Field is required' }
+                  }}
+                  render={({ field: { onChange, onBlur } }) => (
+                    <TimeInput
+                      value={closingTime ?? null}
+                      onChange={(val) => {
+                        onChange(val)
+                        setClosingTime(val)
+                      }}
+                      onBlur={onBlur}
+                      endContent={<ClockIcon className="w-6 h-6" />}
+                      radius="sm"
+                      hourCycle={12}
+                      labelPlacement="outside"
+                      label="Closing time"
+                      classNames={{ label: 'text-md font-merryweather' }}
+                      className="w-full"
+                    />
+                  )}
+                />
+                {errors.closingTime && (
+                  <p className="text-red-600 text-sm mt-1">{errors.closingTime.message}</p>
+                )}
+              </div>
             </div>
             <FormInput
               label="Latitude"
@@ -204,8 +308,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               })}
               error={errors.latitude}
               defaultValue={item && `${item.latitude}`}
+              placeholder="Eg. -1.2345"
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-2 row-start-6"
+              className="col-start-2 row-start-6 w-[90%]"
             />
           </Form>
         </ScrollShadow>
@@ -221,6 +326,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
         </Button>
         <Button
           type="submit"
+          form="poi-form"
           className="bg-mainGreen text-white font-bold font-merryweather text-md w-[220px]"
         >
           {item ? 'Modify' : 'Add new'}
