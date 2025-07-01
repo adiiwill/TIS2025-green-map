@@ -94,7 +94,7 @@ export const usePOIStore = create<POIStore>()(
           const response = await axios.get('/api/poi', {
             headers: { Authorization: `Bearer ${token}` }
           })
-          set(() => ({ allPoi: response.data, filteredPoi: response.data.pointOfInterests }))
+          set(() => ({ allPoi: response.data, filteredPois: response.data.pointOfInterests }))
           return false
         } catch (error) {
           console.log(error)
@@ -103,7 +103,7 @@ export const usePOIStore = create<POIStore>()(
       },
       searchPoi: (query: string): void => {
         if (!query || query.trim() === '') {
-          get().filteredPois = get().allPoi.pointOfInterests
+          set({ filteredPois: [] })
         }
 
         const searchTerm = query.toLowerCase().trim()
