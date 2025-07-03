@@ -93,6 +93,8 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
     } else {
       addPoi(formattedData as POI)
     }
+
+    onClose()
   }
 
   return (
