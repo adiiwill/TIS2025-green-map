@@ -39,15 +39,7 @@ interface Inputs {
   latitude: number
 }
 
-interface CallbackProps {
-  onFormSubmit?: () => void
-}
-
-const PoiFormModal: FunctionComponent<PoiFormModalProps & CallbackProps> = ({
-  item,
-  onClose,
-  onFormSubmit
-}) => {
+const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) => {
   const { updatePoi, addPoi } = usePOIStore()
 
   const {
@@ -101,9 +93,6 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps & CallbackProps> = ({
     } else {
       addPoi(formattedData as POI)
     }
-
-    onFormSubmit?.()
-    onClose()
   }
 
   return (
