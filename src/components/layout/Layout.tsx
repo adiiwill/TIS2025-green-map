@@ -1,4 +1,4 @@
-import { FunctionComponent, JSX } from 'react'
+import { FunctionComponent, JSX, useCallback, useState } from 'react'
 
 import { useNavigate } from 'react-router'
 
@@ -9,7 +9,8 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Input
+  Input,
+  Modal
 } from '@heroui/react'
 import {
   ArrowLeftStartOnRectangleIcon,
@@ -22,11 +23,14 @@ import {
   PlusIcon,
   UserIcon
 } from '@heroicons/react/24/outline'
+import { debounce } from 'lodash'
 
 import LayoutButton from './LayoutButton'
 import MobileLayout from './MobileLayout'
 import { useAuthStore } from '../../store/authStore'
+import { usePOIStore } from '../../store/poiStore'
 import { useSidebarStore } from '../../store/sidebarStore'
+import PoiFormModal from '../admin/modals/PoiFormModal'
 
 interface LayoutComponentProps {
   title: string
@@ -35,24 +39,40 @@ interface LayoutComponentProps {
 }
 
 const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, children }) => {
+  const { searchPoi } = usePOIStore()
+
+  const debouncedSearch = useCallback(
+    debounce((value) => searchPoi(value), 800),
+    [searchPoi]
+  )
+
   const { isExpanded, toggle } = useSidebarStore()
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
   const { email, authReset } = useAuthStore()
   const username = email?.split('@')[0] || 'Unknown'
 
   const navigate = useNavigate()
 
+  const handleAddNew = () => {
+    setIsAddModalOpen(true)
+  }
+
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false)
+  }
+
   return (
     <>
       <div className="block lg:hidden">
-        <MobileLayout />
+        <MobileLayout extended={extended} />
         {children}
       </div>
       <div className="hidden lg:block">
-        <div className="flex flex-row">
+        <div className="flex flex-row h-screen">
           <div
             className={cn(
-              'w-[200px] min-h-screen bg-mainGray flex flex-col items-center font-merryweather gap-6 pt-6 shadow-lg shadow-black/10',
+              'w-[200px] min-h-screen bg-mainGray flex flex-col items-center font-merryweather gap-6 pt-6 shadow-lg',
               isExpanded && 'w-[100px]'
             )}
           >
@@ -81,7 +101,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="Account">
-                <DropdownItem key={'profile'} showDivider isDisabled>
+                <DropdownItem key="profile" showDivider isDisabled>
                   <div className="flex flex-col">
                     <span>{username}</span>
                     <span>{email}</span>
@@ -89,7 +109,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 </DropdownItem>
                 <DropdownItem
                   startContent={<UserIcon className="w-5 h-5" />}
-                  key={'profile-btn'}
+                  key="profile-btn"
                   onPress={() => navigate('/profile')}
                 >
                   Profile
@@ -130,7 +150,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
               />
             </span>
           </div>
-          <div className="flex flex-col w-full h-screen overflow-hidden">
+          <div className="flex flex-col flex-1 h-screen overflow-hidden">
             <div
               className={cn(
                 'bg-white w-full h-20 drop-shadow-md flex flex-col p-6 font-merryweather font-bold text-2xl gap-6',
@@ -146,12 +166,14 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                       placeholder="Search for..."
                       className="max-w-[300px]"
                       variant="bordered"
-                      startContent={<MagnifyingGlassIcon className="w-5 h-5" />}
+                      startContent={<MagnifyingGlassIcon className="w-6 h-6 text-gray-500" />}
                       radius="sm"
+                      onChange={(e) => debouncedSearch(e.currentTarget.value)}
                     />
                     <Button
                       className="flex items-center gap-1 bg-mainGreen text-white px-12"
                       radius="sm"
+                      onPress={handleAddNew}
                     >
                       <PlusIcon className="w-6 h-6" /> Add New
                     </Button>
@@ -159,10 +181,21 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                 </>
               )}
             </div>
-            <div className="flex-1 h-1 -z-1 min-h-0">{children}</div>
+            <div className="overflow-y-auto">{children}</div>
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={handleCloseAddModal}
+        backdrop="blur"
+        placement="center"
+        radius="sm"
+        size="3xl"
+      >
+        <PoiFormModal onClose={handleCloseAddModal} />
+      </Modal>
     </>
   )
 }
