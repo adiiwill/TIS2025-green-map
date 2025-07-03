@@ -45,6 +45,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
     debounce((value) => searchPoi(value), 800),
     [searchPoi]
   )
+  const [searchValue, setSearchValue] = useState('')
 
   const { isExpanded, toggle } = useSidebarStore()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
@@ -168,7 +169,11 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                       variant="bordered"
                       startContent={<MagnifyingGlassIcon className="w-6 h-6 text-gray-500" />}
                       radius="sm"
-                      onChange={(e) => debouncedSearch(e.currentTarget.value)}
+                      value={searchValue}
+                      onChange={(e) => {
+                        setSearchValue(e.currentTarget.value)
+                        debouncedSearch(e.currentTarget.value)
+                      }}
                     />
                     <Button
                       className="flex items-center gap-1 bg-mainGreen text-white px-12"
@@ -194,7 +199,13 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
         radius="sm"
         size="3xl"
       >
-        <PoiFormModal onClose={handleCloseAddModal} />
+        <PoiFormModal
+          onClose={handleCloseAddModal}
+          onFormSubmit={() => {
+            setSearchValue('')
+            console.log('onFormSubmit called!')
+          }}
+        />
       </Modal>
     </>
   )
