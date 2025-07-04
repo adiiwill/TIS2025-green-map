@@ -41,6 +41,7 @@ const Map = () => {
           disableDefaultUI
           defaultCenter={center}
           defaultZoom={12}
+          gestureHandling="greedy"
           mapId="GREENMAP_MAP"
           className="h-screen w-screen"
         >
@@ -58,6 +59,11 @@ const Map = () => {
               position={{ lat: selectedPoi.latitude, lng: selectedPoi.longitude }}
               onClose={handleMarkerClose}
               disableAutoPan
+              headerContent={
+                <p className="font-bold font-merryweather text-2xl p-1 pb-0 text-mainGreen">
+                  {selectedPoi.name}
+                </p>
+              }
             >
               <CustomInfoView selectedPoi={selectedPoi} />
             </InfoWindow>

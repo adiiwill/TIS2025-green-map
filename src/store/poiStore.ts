@@ -32,6 +32,7 @@ interface POIStore {
   updatePoi: (poi: POI) => void
   deletePoi: (id: number) => void
   getAllPoi: () => Promise<boolean>
+  getPaginatedPoi: (page: number, size: number) => Promise<POIData>
   addPoi: (poi: POI) => void
   searchPoi: (query: string) => void
 
@@ -90,15 +91,37 @@ export const usePOIStore = create<POIStore>()(
       },
       getAllPoi: async () => {
         try {
-          const token = useAuthStore.getState().token
-          const response = await axios.get('/api/poi', {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-          set(() => ({ allPoi: response.data, filteredPois: response.data.pointOfInterests }))
+          const initialRequest = await get().getPaginatedPoi(1, 10)
+          const allPages = initialRequest.numberOfPages
+
+          const _allPoi: POIData = {
+            pointOfInterests: [...initialRequest.pointOfInterests],
+            numberOfItems: initialRequest.numberOfItems,
+            numberOfPages: initialRequest.numberOfPages
+          }
+
+          for (let i = 2; i <= allPages; i++) {
+            const response = await get().getPaginatedPoi(i, 10)
+            _allPoi.pointOfInterests.push(...response.pointOfInterests)
+          }
+
+          set(() => ({ allPoi: _allPoi, filteredPois: [] }))
           return false
         } catch (error) {
           console.log(error)
           return true
+        }
+      },
+      getPaginatedPoi: async (page: number, size: number) => {
+        try {
+          const token = useAuthStore.getState().token
+          const response = await axios.get(`/api/poi?page=${page}&size=${size}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+
+          return response.data
+        } catch (error) {
+          console.log(error)
         }
       },
       searchPoi: (query: string): void => {

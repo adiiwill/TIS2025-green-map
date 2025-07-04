@@ -26,7 +26,9 @@ const PoiItemTile: FunctionComponent<PoiItemTileProps> = ({ item }) => {
   return (
     <div className="w-full max-w-[375px] min-w-[300px] h-[325px] bg-white rounded-md p-4 drop-shadow-md relative">
       <div className="flex items-center justify-between bg-[#f2f2f2] p-3 rounded-md">
-        <span className="font-merryweather text-2xl">{item.name}</span>
+        <span className="font-merryweather text-2xl truncate pr-2 flex-1 min-w-0">
+          {item.name}
+        </span>
         <Dropdown className="font-lato" placement="bottom-start" offset={5}>
           <DropdownTrigger>
             <Button variant="light" className="min-w-0 w-8 h-8 p-0">
