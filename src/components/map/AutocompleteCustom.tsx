@@ -1,19 +1,29 @@
-import { FormEvent, useCallback, useState } from 'react'
+import { FormEvent, FunctionComponent, useCallback, useState } from 'react'
 
-import { Input, Listbox, ListboxItem } from '@heroui/react'
+import { cn, Input, Listbox, ListboxItem } from '@heroui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
 
 import { useAutocompleteSuggestions } from './hooks/use-autocomplete-suggestions'
 
-interface Props {
+interface AutocompleteCustomProps {
   onPlaceSelect: (place: google.maps.places.Place | null) => void
+  className?: string
+  onChange?: (value: string) => void
+  onBlur?: () => void
+  value?: string
 }
 
-export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
+export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
+  onPlaceSelect,
+  className,
+  onChange,
+  onBlur,
+  value
+}) => {
   const places = useMapsLibrary('places')
 
-  const [inputValue, setInputValue] = useState<string>('')
+  const [inputValue, setInputValue] = useState<string>(value as string)
   const { suggestions, resetSession } = useAutocompleteSuggestions(inputValue)
 
   const handleInput = useCallback((event: FormEvent<HTMLInputElement>) => {
@@ -49,7 +59,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   )
 
   return (
-    <div className="flex flex-col items-center md:w-auto p-5 gap-0.5">
+    <div className={cn(className || 'w-full p-5 gap-0.5')}>
       <Input
         value={inputValue}
         onInput={(event) => handleInput(event)}
@@ -59,10 +69,12 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
         radius="sm"
         size="lg"
         startContent={<MagnifyingGlassIcon className="w-6 h-6 text-gray-500" />}
+        onChange={() => onChange}
+        onBlur={() => onBlur}
       />
 
       {suggestions.length > 0 && (
-        <Listbox className="bg-white w-screen text-xl md:w-full rounded-md">
+        <Listbox className="bg-white border-2 mt-1 border-gray-200 w-screen text-xl md:w-full rounded-xl absolute">
           {suggestions.map((suggestion, index) => {
             return (
               <ListboxItem

@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 import { AdvancedMarker, Pin, useMap } from '@vis.gl/react-google-maps'
 
-interface Props {
+interface AutocompleteResultProps {
   place: google.maps.places.Place | null
 }
 
-const AutocompleteResult = ({ place }: Props) => {
+const AutocompleteResult: FunctionComponent<AutocompleteResultProps> = ({ place }) => {
   const map = useMap()
 
   // adjust the viewport of the map when the place is changed

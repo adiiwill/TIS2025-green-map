@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 
 import {
   AdvancedMarker,
-  APIProvider,
   ControlPosition,
   InfoWindow,
   Map as GoogleMap
@@ -39,47 +38,45 @@ const Map = () => {
 
   return (
     <Layout title="Map">
-      <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string}>
-        <GoogleMap
-          fullscreenControl={false}
-          disableDefaultUI
-          defaultCenter={center}
-          defaultZoom={7}
-          gestureHandling="greedy"
-          mapId="GREENMAP_MAP"
-          className="h-screen w-screen"
-        >
-          <Autocomplete
-            controlPosition={ControlPosition.TOP_LEFT}
-            onPlaceSelect={setSelectedPlace}
+      <GoogleMap
+        fullscreenControl={false}
+        disableDefaultUI
+        defaultCenter={center}
+        defaultZoom={7}
+        gestureHandling="greedy"
+        mapId="GREENMAP_MAP"
+        className="h-screen w-screen"
+      >
+        <Autocomplete
+          controlPosition={ControlPosition.TOP_LEFT}
+          onPlaceSelect={setSelectedPlace}
+        />
+        <AutocompleteResult place={selectedPlace} />
+
+        {allPoi?.pointOfInterests?.map((poi) => (
+          <AdvancedMarker
+            key={poi.id}
+            position={{ lat: poi.latitude, lng: poi.longitude }}
+            onClick={() => handleMarkerClick(poi)}
           />
-          <AutocompleteResult place={selectedPlace} />
+        ))}
 
-          {allPoi?.pointOfInterests?.map((poi) => (
-            <AdvancedMarker
-              key={poi.id}
-              position={{ lat: poi.latitude, lng: poi.longitude }}
-              onClick={() => handleMarkerClick(poi)}
-            />
-          ))}
-
-          {infoWindowShown && selectedPoi && (
-            <InfoWindow
-              key={selectedPoi.id}
-              position={{ lat: selectedPoi.latitude, lng: selectedPoi.longitude }}
-              onClose={handleMarkerClose}
-              disableAutoPan
-              headerContent={
-                <p className="font-bold font-merryweather text-2xl p-1 pb-0 text-mainGreen">
-                  {selectedPoi.name}
-                </p>
-              }
-            >
-              <CustomInfoView selectedPoi={selectedPoi} />
-            </InfoWindow>
-          )}
-        </GoogleMap>
-      </APIProvider>
+        {infoWindowShown && selectedPoi && (
+          <InfoWindow
+            key={selectedPoi.id}
+            position={{ lat: selectedPoi.latitude, lng: selectedPoi.longitude }}
+            onClose={handleMarkerClose}
+            disableAutoPan
+            headerContent={
+              <p className="font-bold font-merryweather text-2xl p-1 pb-0 text-mainGreen">
+                {selectedPoi.name}
+              </p>
+            }
+          >
+            <CustomInfoView selectedPoi={selectedPoi} />
+          </InfoWindow>
+        )}
+      </GoogleMap>
     </Layout>
   )
 }
