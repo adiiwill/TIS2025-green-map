@@ -15,7 +15,7 @@ import { POI } from '../../../store/poiStore'
 import { usePOIStore } from '../../../store/poiStore'
 import { formatTime, parseTimeFormat } from '../../../utils/timeUtils'
 import FormInput from '../../common/FormInput'
-import { AutocompleteCustom } from '../../map/AutocompleteCustom.tsx'
+import { AutocompleteFormInput } from '../AutocompleteFormInput.tsx'
 
 import 'react-international-phone/style.css'
 
@@ -180,7 +180,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                 name="address"
                 defaultValue={item && item.address}
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <AutocompleteCustom
+                  <AutocompleteFormInput
                     onPlaceSelect={setSelectedPlace}
                     className="p-0 w-full mt-1 relative"
                     onChange={onChange}
