@@ -15,6 +15,7 @@ import { POI } from '../../../store/poiStore'
 import { usePOIStore } from '../../../store/poiStore'
 import { formatTime, parseTimeFormat } from '../../../utils/timeUtils'
 import FormInput from '../../common/FormInput'
+import { AutocompleteFormInput } from '../AutocompleteFormInput.tsx'
 
 import 'react-international-phone/style.css'
 
@@ -35,12 +36,12 @@ interface Inputs {
   openingTime: Time | null
   closingTime: Time | null
   openingHours: string
-  longitude: number
-  latitude: number
 }
 
 const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) => {
   const { updatePoi, addPoi } = usePOIStore()
+
+  const [selectedPlace, setSelectedPlace] = useState<google.maps.places.Place | null>(null)
 
   const {
     register,
@@ -82,9 +83,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
       url: data.url,
       email: data.email,
       phoneNumber: data.phoneNumber,
-      address: data.address,
-      longitude: Number(data.longitude),
-      latitude: Number(data.latitude),
+      address: selectedPlace?.formattedAddress as string,
+      longitude: Number(selectedPlace?.location?.lng()),
+      latitude: Number(selectedPlace?.location?.lat()),
       openingHours: `${formatTime(openingTime)}-${formatTime(closingTime)}`
     }
 
@@ -93,6 +94,8 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
     } else {
       addPoi(formattedData as POI)
     }
+
+    onClose()
   }
 
   return (
@@ -140,7 +143,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               defaultValue={item && item.description}
               placeholder=" "
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-3 w-[90%]"
+              className="col-start-1 row-start-4 w-[90%]"
             />
 
             <FormInput
@@ -156,32 +159,38 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               defaultValue={item && item.email}
               placeholder="Eg. myemail@gmail.com"
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-4 w-[90%]"
-            />
-
-            <FormInput
-              label="Address"
-              register={register('address', {
-                required: { value: true, message: 'Field is required' }
-              })}
-              error={errors.address}
-              defaultValue={item && item.address}
-              placeholder=" "
-              classNames={{ label: '!text-black font-merryweather text-md' }}
               className="col-start-1 row-start-5 w-[90%]"
             />
 
-            <FormInput
-              label="Longitude"
-              register={register('longitude', {
-                required: { value: true, message: 'Field is required' }
-              })}
-              error={errors.longitude}
-              defaultValue={item && `${item.longitude}`}
-              placeholder="Eg. 2.2345"
-              classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-6 w-[90%]"
-            />
+            {/*<FormInput*/}
+            {/*  label="Address"*/}
+            {/*  register={register('address', {*/}
+            {/*    required: { value: true, message: 'Field is required' }*/}
+            {/*  })}*/}
+            {/*  error={errors.address}*/}
+            {/*  defaultValue={item && item.address}*/}
+            {/*  placeholder=" "*/}
+            {/*  classNames={{ label: '!text-black font-merryweather text-md' }}*/}
+            {/*  className="col-start-1 row-start-3 w-[90%]"*/}
+            {/*/>*/}
+            <div className="col-start-1 row-start-3 w-[90%] z-40">
+              <span className="font-merryweather">Address</span>
+              <Controller
+                control={control}
+                name="address"
+                defaultValue={item && item.address}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <AutocompleteFormInput
+                    onPlaceSelect={setSelectedPlace}
+                    className="p-0 w-full mt-1 relative"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                  />
+                )}
+              />
+              <p className="text-red-600 text-sm mt-1">{errors.address?.message}</p>
+            </div>
 
             <FormInput
               label="Subcategory"
@@ -192,7 +201,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               defaultValue={item && item.subCategory}
               placeholder=" "
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-2 row-start-2 w-[90%]"
+              className="col-start-2 row-start-3 w-[90%]"
             />
             <FormInput
               label="URL"
@@ -207,10 +216,10 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               defaultValue={item && item.url}
               placeholder="Eg. www.example.com"
               classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-2 row-start-3 w-[90%]"
+              className="col-start-2 row-start-4 w-[90%]"
             />
 
-            <div className="col-start-2 row-start-4 -translate-y-[2px] w-[90%] z-40">
+            <div className="col-start-2 row-start-2 w-[90%] z-40">
               <span className="font-merryweather">Phone number</span>
               <Controller
                 control={control}
@@ -299,17 +308,6 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                 )}
               </div>
             </div>
-            <FormInput
-              label="Latitude"
-              register={register('latitude', {
-                required: { value: true, message: 'Field is required' }
-              })}
-              error={errors.latitude}
-              defaultValue={item && `${item.latitude}`}
-              placeholder="Eg. -1.2345"
-              classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-2 row-start-6 w-[90%]"
-            />
           </Form>
         </ScrollShadow>
       </ModalBody>

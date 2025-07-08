@@ -21,7 +21,9 @@ const Admin = () => {
     fetchPois()
   }, [getAllPoi])
 
-  const displayPois = filteredPois.length > 0 ? filteredPois : allPoi?.pointOfInterests || []
+  const isSearchActive = filteredPois.length > 0
+  const hasAllPois = allPoi?.pointOfInterests?.length > 0
+  const displayPois = isSearchActive ? filteredPois : (allPoi?.pointOfInterests ?? [])
 
   if (loading) {
     return (
@@ -37,9 +39,7 @@ const Admin = () => {
     )
   }
 
-  const hasNoPois = error || !allPoi?.pointOfInterests || allPoi.pointOfInterests.length === 0
-
-  if (hasNoPois) {
+  if (error || !hasAllPois) {
     return (
       <Layout title="Administration" extended>
         <div className="bg-[#f2f2f2] min-h-screen pt-[100px] lg:pt-0 lg:min-h-[calc(100vh-180px)] flex flex-col items-center justify-center gap-6">
@@ -54,7 +54,7 @@ const Admin = () => {
     )
   }
 
-  if (filteredPois.length === 0 && allPoi?.pointOfInterests?.length > 0) {
+  if (isSearchActive && filteredPois.length === 0) {
     return (
       <Layout title="Administration" extended>
         <div className="bg-[#f2f2f2] min-h-screen pt-[100px] lg:pt-0 lg:min-h-[calc(100vh-180px)] flex flex-col items-center justify-center gap-6">
