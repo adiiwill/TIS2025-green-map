@@ -3,19 +3,23 @@ import { useCallback, useEffect, useState } from 'react'
 import {
   AdvancedMarker,
   APIProvider,
+  ControlPosition,
   InfoWindow,
   Map as GoogleMap
 } from '@vis.gl/react-google-maps'
 
 import Layout from '../components/layout/Layout'
+import Autocomplete from '../components/map/Autocomplete'
+import AutocompleteResult from '../components/map/AutocompleteResult'
 import CustomInfoView from '../components/map/CustomInfoView'
 import { POI, usePOIStore } from '../store/poiStore'
 
 const Map = () => {
-  const center = { lat: 47.49791, lng: 19.0402 }
+  const center = { lat: 47, lng: 20 }
 
   const [selectedPoi, setSelectedPoi] = useState<POI | null>(null)
   const [infoWindowShown, setInfoWindowShown] = useState<boolean>(false)
+  const [selectedPlace, setSelectedPlace] = useState<google.maps.places.Place | null>(null)
 
   const handleMarkerClick = useCallback((poi: POI) => {
     setSelectedPoi(poi)
@@ -40,11 +44,17 @@ const Map = () => {
           fullscreenControl={false}
           disableDefaultUI
           defaultCenter={center}
-          defaultZoom={12}
+          defaultZoom={7}
           gestureHandling="greedy"
           mapId="GREENMAP_MAP"
           className="h-screen w-screen"
         >
+          <Autocomplete
+            controlPosition={ControlPosition.TOP_LEFT}
+            onPlaceSelect={setSelectedPlace}
+          />
+          <AutocompleteResult place={selectedPlace} />
+
           {allPoi?.pointOfInterests?.map((poi) => (
             <AdvancedMarker
               key={poi.id}

@@ -91,7 +91,7 @@ export const usePOIStore = create<POIStore>()(
       },
       getAllPoi: async () => {
         try {
-          const initialRequest = await get().getPaginatedPoi(1, 10)
+          const initialRequest = await get().getPaginatedPoi(0, 10)
           const allPages = initialRequest.numberOfPages
 
           const _allPoi: POIData = {
@@ -100,7 +100,7 @@ export const usePOIStore = create<POIStore>()(
             numberOfPages: initialRequest.numberOfPages
           }
 
-          for (let i = 2; i <= allPages; i++) {
+          for (let i = 1; i <= allPages; i++) {
             const response = await get().getPaginatedPoi(i, 10)
             _allPoi.pointOfInterests.push(...response.pointOfInterests)
           }
