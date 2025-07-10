@@ -78,7 +78,7 @@ export const AutocompleteFormInput: FunctionComponent<AutocompleteFormInputProps
       />
 
       {suggestions.length > 0 && hasUserInteracted && (
-        <Listbox className="bg-white border-2 mt-1 border-gray-200 w-screen text-xl md:w-full rounded-xl absolute">
+        <Listbox className="bg-white border-2 mt-1 border-gray-200 text-xl w-full md:w-min rounded-xl">
           {suggestions.map((suggestion, index) => {
             return (
               <ListboxItem

@@ -4,18 +4,18 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { Button, Form, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/react'
 import { TimeInput } from '@heroui/react'
-import { ScrollShadow } from '@heroui/react'
+import { ScrollShadow, Select, SelectItem } from '@heroui/react'
 import { ClockIcon } from '@heroicons/react/24/outline'
 import { MinusIcon } from '@heroicons/react/24/solid'
 import { Time } from '@internationalized/date'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 
-import { CustomPhoneInput } from './style.ts'
+import { CustomPhoneInput } from './style'
 import { POI } from '../../../store/poiStore'
 import { usePOIStore } from '../../../store/poiStore'
 import { formatTime, parseTimeFormat } from '../../../utils/timeUtils'
 import FormInput from '../../common/FormInput'
-import { AutocompleteFormInput } from '../AutocompleteFormInput.tsx'
+import { AutocompleteFormInput } from '../AutocompleteFormInput'
 
 import 'react-international-phone/style.css'
 
@@ -83,9 +83,15 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
       url: data.url,
       email: data.email,
       phoneNumber: data.phoneNumber,
-      address: selectedPlace?.formattedAddress as string,
-      longitude: Number(selectedPlace?.location?.lng()),
-      latitude: Number(selectedPlace?.location?.lat()),
+      address: selectedPlace?.formattedAddress
+        ? String(selectedPlace.formattedAddress)
+        : item?.address || 'error',
+      longitude: selectedPlace?.location?.lng()
+        ? Number(selectedPlace.location.lng())
+        : item?.longitude || 0,
+      latitude: selectedPlace?.location?.lat()
+        ? Number(selectedPlace.location.lat())
+        : item?.latitude || 0,
       openingHours: `${formatTime(openingTime)}-${formatTime(closingTime)}`
     }
 
@@ -122,17 +128,28 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               className="col-start-1 row-start-1 w-[90%]"
             />
 
-            <FormInput
-              label="Category"
-              register={register('category', {
-                required: { value: true, message: 'Field is required' }
-              })}
-              error={errors.category}
-              defaultValue={item && item.category}
-              placeholder=" "
-              classNames={{ label: '!text-black font-merryweather text-md' }}
-              className="col-start-1 row-start-2 w-[90%]"
-            />
+            <div className="col-start-1 row-start-2 w-[90%] pt-1">
+              <Select
+                label="Category"
+                labelPlacement="outside"
+                placeholder=" "
+                defaultSelectedKeys={item?.category ? [item.category] : []}
+                classNames={{ label: '!text-black font-merryweather text-md' }}
+                {...register('category', {
+                  required: { value: true, message: 'Field is required' }
+                })}
+              >
+                <SelectItem key="Restaurants & Cafés">Restaurants & Cafés</SelectItem>
+                <SelectItem key="Retail & Shopping">Retail & Shopping</SelectItem>
+                <SelectItem key="Entertainment & Leisure">Entertainment & Leisure</SelectItem>
+                <SelectItem key="Health & Wellness">Health & Wellness</SelectItem>
+                <SelectItem key="Cultural & Historical Sites">
+                  Cultural & Historical Sites
+                </SelectItem>
+                <SelectItem key="Business & Services">Business & Services</SelectItem>
+              </Select>
+              <p className="text-red-600 text-sm mt-1">{errors.category?.message}</p>
+            </div>
 
             <FormInput
               label="Description"
@@ -162,17 +179,6 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               className="col-start-1 row-start-5 w-[90%]"
             />
 
-            {/*<FormInput*/}
-            {/*  label="Address"*/}
-            {/*  register={register('address', {*/}
-            {/*    required: { value: true, message: 'Field is required' }*/}
-            {/*  })}*/}
-            {/*  error={errors.address}*/}
-            {/*  defaultValue={item && item.address}*/}
-            {/*  placeholder=" "*/}
-            {/*  classNames={{ label: '!text-black font-merryweather text-md' }}*/}
-            {/*  className="col-start-1 row-start-3 w-[90%]"*/}
-            {/*/>*/}
             <div className="col-start-1 row-start-3 w-[90%] z-40">
               <span className="font-merryweather">Address</span>
               <Controller
@@ -247,7 +253,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               <p className="text-red-600 text-sm mt-1">{errors.phoneNumber?.message}</p>
             </div>
 
-            <div className="flex flex-row items-center gap-1 col-start-2 row-start-5 w-[90%] xl:-translate-y-[2px] relative">
+            <div className="flex flex-row items-start gap-1 col-start-2 row-start-5 w-[90%] xl:-translate-y-[2px] relative pb-6">
               <div className="w-full">
                 <Controller
                   name="openingTime"
@@ -277,7 +283,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                   <p className="text-red-600 text-sm mt-1">{errors.openingTime.message}</p>
                 )}
               </div>
-              <MinusIcon className="w-4 mt-8" />
+              <MinusIcon className="w-4 mt-12" />
               <div className="w-full">
                 <Controller
                   name="closingTime"
