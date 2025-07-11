@@ -22,7 +22,7 @@ const Dashboard = () => {
             <h2 className="self-start absolute top-4 left-4 text-3xl font-bold text-mainGray">
               Pois
             </h2>
-            <div className="bg-mainGreen rounded-full p-3 flex items-center justify-center drop-shadow-md">
+            <div className="bg-mainGreen rounded-full p-3 inline-flex items-center justify-center drop-shadow-md">
               <div className="bg-mainGreen rounded-full p-5 w-46 h-46 flex items-center justify-center text-8xl text-white border-2 border-white">
                 <CountUp from={0} to={allPoi.pointOfInterests.length} duration={1} />
               </div>
