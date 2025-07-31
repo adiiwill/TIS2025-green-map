@@ -45,7 +45,7 @@ const Map = () => {
         defaultZoom={7}
         gestureHandling="greedy"
         mapId="GREENMAP_MAP"
-        className="h-screen w-screen"
+        className="h-screen xl:h-[calc(100vh-80px)] w-full"
       >
         <Autocomplete
           controlPosition={ControlPosition.TOP_LEFT}

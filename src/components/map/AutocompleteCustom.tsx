@@ -1,6 +1,6 @@
 import { FormEvent, FunctionComponent, useCallback, useState } from 'react'
 
-import { cn, Input, Listbox, ListboxItem } from '@heroui/react'
+import { Input, Listbox, ListboxItem } from '@heroui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
 
@@ -8,7 +8,6 @@ import { useAutocompleteSuggestions } from './hooks/use-autocomplete-suggestions
 
 interface AutocompleteCustomProps {
   onPlaceSelect: (place: google.maps.places.Place | null) => void
-  className?: string
   onChange?: (value: string) => void
   onBlur?: () => void
   value?: string
@@ -16,7 +15,6 @@ interface AutocompleteCustomProps {
 
 export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
   onPlaceSelect,
-  className,
   onChange,
   onBlur,
   value
@@ -59,7 +57,7 @@ export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
   )
 
   return (
-    <div className={cn(className || 'w-full p-5 gap-0.5')}>
+    <div className="w-screen md:w-full p-5 gap-0.5">
       <Input
         value={inputValue}
         onInput={(event) => handleInput(event)}
@@ -74,7 +72,7 @@ export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
       />
 
       {suggestions.length > 0 && (
-        <Listbox className="bg-white border-2 mt-1 border-gray-200 w-screen text-xl md:w-full rounded-xl absolute">
+        <Listbox className="bg-white border-2 mt-1 border-gray-200 text-xl w-full md:w-min rounded-xl">
           {suggestions.map((suggestion, index) => {
             return (
               <ListboxItem
