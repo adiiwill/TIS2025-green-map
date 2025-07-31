@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router'
 
 import ProtectedRoute from './components/common/ProtectedRoute'
 import TodoApp from './components/todo/TodoApp'
+import NotFound from './pages/404.tsx'
 import Admin from './pages/Admin'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
@@ -21,6 +22,8 @@ const Router = () => {
       <Route path="/administration" element={<ProtectedRoute page={<Admin />} />} />
       <Route path="/map" element={<ProtectedRoute page={<Map />} />} />
       <Route path="/profile" element={<ProtectedRoute page={<Profile />} />} />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
