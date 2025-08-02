@@ -1,5 +1,7 @@
 import { FormEvent, FunctionComponent, useCallback, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import { cn, Input, Listbox, ListboxItem } from '@heroui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
@@ -21,6 +23,7 @@ export const AutocompleteFormInput: FunctionComponent<AutocompleteFormInputProps
   onBlur,
   value
 }) => {
+  const { t } = useTranslation()
   const places = useMapsLibrary('places')
 
   const [inputValue, setInputValue] = useState<string>(value as string)
@@ -67,7 +70,7 @@ export const AutocompleteFormInput: FunctionComponent<AutocompleteFormInputProps
         value={inputValue}
         onInput={handleInput}
         onFocus={handleFocus}
-        placeholder="Search for a place"
+        placeholder={t('autocompleteInput.placeholder')}
         className="w-full"
         variant="faded"
         radius="sm"

@@ -10,9 +10,11 @@ i18n.use(initReactI18next).init({
     en: { translation: en },
     hu: { translation: hu }
   },
-  lng: 'en',
+  lng: 'hu',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false
   }
 })
+
+export default i18n

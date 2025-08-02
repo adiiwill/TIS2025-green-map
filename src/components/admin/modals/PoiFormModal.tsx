@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import { Button, Form, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/react'
 import { TimeInput } from '@heroui/react'
@@ -39,6 +40,7 @@ interface Inputs {
 }
 
 const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) => {
+  const { t } = useTranslation()
   const { updatePoi, addPoi } = usePOIStore()
 
   const [selectedPlace, setSelectedPlace] = useState<google.maps.places.Place | null>(null)
@@ -107,7 +109,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
   return (
     <ModalContent>
       <ModalHeader className="text-2xl">
-        {item ? `Editing "${item.name}"` : 'Add new'}
+        {item
+          ? t('poiFormModal.editingTitle', { name: item.name })
+          : t('poiFormModal.addTitle')}
       </ModalHeader>
       <ModalBody>
         <ScrollShadow>
@@ -117,9 +121,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
             className="flex items-center xl:grid gap-y-6 xl:gap-y-5 xl:gap-x-4 xl:grid-cols-2 max-h-[500px] xl:max-h-screen py-4"
           >
             <FormInput
-              label="Name"
+              label={t('poiFormModal.fields.name')}
               register={register('name', {
-                required: { value: true, message: 'Field is required' }
+                required: { value: true, message: t('poiFormModal.validation.required') }
               })}
               error={errors.name}
               defaultValue={item && item.name}
@@ -130,31 +134,41 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
 
             <div className="col-start-1 row-start-2 w-[90%] pt-1">
               <Select
-                label="Category"
+                label={t('poiFormModal.fields.category')}
                 labelPlacement="outside"
                 placeholder=" "
                 defaultSelectedKeys={item?.category ? [item.category] : []}
                 classNames={{ label: '!text-black font-merryweather text-md' }}
                 {...register('category', {
-                  required: { value: true, message: 'Field is required' }
+                  required: { value: true, message: t('poiFormModal.validation.required') }
                 })}
               >
-                <SelectItem key="Restaurants & Cafés">Restaurants & Cafés</SelectItem>
-                <SelectItem key="Retail & Shopping">Retail & Shopping</SelectItem>
-                <SelectItem key="Entertainment & Leisure">Entertainment & Leisure</SelectItem>
-                <SelectItem key="Health & Wellness">Health & Wellness</SelectItem>
-                <SelectItem key="Cultural & Historical Sites">
-                  Cultural & Historical Sites
+                <SelectItem key="Restaurants & Cafés">
+                  {t('poiFormModal.categories.restaurants')}
                 </SelectItem>
-                <SelectItem key="Business & Services">Business & Services</SelectItem>
+                <SelectItem key="Retail & Shopping">
+                  {t('poiFormModal.categories.retail')}
+                </SelectItem>
+                <SelectItem key="Entertainment & Leisure">
+                  {t('poiFormModal.categories.entertainment')}
+                </SelectItem>
+                <SelectItem key="Health & Wellness">
+                  {t('poiFormModal.categories.health')}
+                </SelectItem>
+                <SelectItem key="Cultural & Historical Sites">
+                  {t('poiFormModal.categories.cultural')}
+                </SelectItem>
+                <SelectItem key="Business & Services">
+                  {t('poiFormModal.categories.business')}
+                </SelectItem>
               </Select>
               <p className="text-red-600 text-sm mt-1">{errors.category?.message}</p>
             </div>
 
             <FormInput
-              label="Description"
+              label={t('poiFormModal.fields.description')}
               register={register('description', {
-                required: { value: true, message: 'Field is required' }
+                required: { value: true, message: t('poiFormModal.validation.required') }
               })}
               error={errors.description}
               defaultValue={item && item.description}
@@ -164,23 +178,23 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
             />
 
             <FormInput
-              label="E-mail"
+              label={t('poiFormModal.fields.email')}
               register={register('email', {
-                required: { value: true, message: 'Field is required' },
+                required: { value: true, message: t('poiFormModal.validation.required') },
                 pattern: {
                   value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                  message: 'Invalid email address'
+                  message: t('poiFormModal.validation.invalidEmail')
                 }
               })}
               error={errors.email}
               defaultValue={item && item.email}
-              placeholder="Eg. myemail@gmail.com"
+              placeholder={t('poiFormModal.placeholders.email')}
               classNames={{ label: '!text-black font-merryweather text-md' }}
               className="col-start-1 row-start-5 w-[90%]"
             />
 
             <div className="col-start-1 row-start-3 w-[90%] z-40">
-              <span className="font-merryweather">Address</span>
+              <span className="font-merryweather">{t('poiFormModal.fields.address')}</span>
               <Controller
                 control={control}
                 name="address"
@@ -199,9 +213,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
             </div>
 
             <FormInput
-              label="Subcategory"
+              label={t('poiFormModal.fields.subcategory')}
               register={register('subCategory', {
-                required: { value: true, message: 'Field is required' }
+                required: { value: true, message: t('poiFormModal.validation.required') }
               })}
               error={errors.subCategory}
               defaultValue={item && item.subCategory}
@@ -210,30 +224,30 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               className="col-start-2 row-start-3 w-[90%]"
             />
             <FormInput
-              label="URL"
+              label={t('poiFormModal.fields.url')}
               register={register('url', {
-                required: { value: true, message: 'Field is required' },
+                required: { value: true, message: t('poiFormModal.validation.required') },
                 pattern: {
                   value: /^www\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: 'Enter a valid URL'
+                  message: t('poiFormModal.validation.invalidUrl')
                 }
               })}
               error={errors.url}
               defaultValue={item && item.url}
-              placeholder="Eg. www.example.com"
+              placeholder={t('poiFormModal.placeholders.url')}
               classNames={{ label: '!text-black font-merryweather text-md' }}
               className="col-start-2 row-start-4 w-[90%]"
             />
 
             <div className="col-start-2 row-start-2 w-[90%] z-40">
-              <span className="font-merryweather">Phone number</span>
+              <span className="font-merryweather">{t('poiFormModal.fields.phoneNumber')}</span>
               <Controller
                 control={control}
                 name="phoneNumber"
                 rules={{
                   validate: (value) => {
                     if (!isValidPhoneNumber(value, 'HU')) {
-                      return 'Please enter a valid phone number'
+                      return t('poiFormModal.validation.invalidPhone')
                     }
 
                     return true
@@ -259,7 +273,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                   name="openingTime"
                   control={control}
                   rules={{
-                    required: { value: true, message: 'Field is required' }
+                    required: { value: true, message: t('poiFormModal.validation.required') }
                   }}
                   render={({ field: { onChange, onBlur } }) => (
                     <TimeInput
@@ -273,7 +287,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                       radius="sm"
                       hourCycle={12}
                       labelPlacement="outside"
-                      label="Opening time"
+                      label={t('poiFormModal.fields.openingTime')}
                       classNames={{ label: 'text-md font-merryweather' }}
                       className="w-full"
                     />
@@ -289,7 +303,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                   name="closingTime"
                   control={control}
                   rules={{
-                    required: { value: true, message: 'Field is required' }
+                    required: { value: true, message: t('poiFormModal.validation.required') }
                   }}
                   render={({ field: { onChange, onBlur } }) => (
                     <TimeInput
@@ -303,7 +317,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                       radius="sm"
                       hourCycle={12}
                       labelPlacement="outside"
-                      label="Closing time"
+                      label={t('poiFormModal.fields.closingTime')}
                       classNames={{ label: 'text-md font-merryweather' }}
                       className="w-full"
                     />
@@ -324,14 +338,14 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
           className="font-bold font-merryweather text-gray-600 text-md w-[220px]"
           onPress={onClose}
         >
-          Cancel
+          {t('poiFormModal.buttons.cancel')}
         </Button>
         <Button
           type="submit"
           form="poi-form"
           className="bg-mainGreen text-white font-bold font-merryweather text-md w-[220px]"
         >
-          {item ? 'Modify' : 'Add new'}
+          {item ? t('poiFormModal.buttons.modify') : t('poiFormModal.buttons.addNew')}
         </Button>
       </ModalFooter>
     </ModalContent>

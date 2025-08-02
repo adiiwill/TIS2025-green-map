@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import Pagination from '../components/admin/Pagination'
 import PoiItemTile from '../components/admin/PoiItemTile'
 import PoiSkeleton from '../components/admin/PoiSkeleton'
@@ -7,6 +9,7 @@ import Layout from '../components/layout/Layout'
 import { POI, usePOIStore } from '../store/poiStore'
 
 const Admin = () => {
+  const { t } = useTranslation()
   const { filteredPois, getPaginatedPoi } = usePOIStore()
 
   const [allPois, setAllPois] = useState<POI[]>([]) // Store all POIs (paginated or filtered)
@@ -71,7 +74,7 @@ const Admin = () => {
 
   if (loading) {
     return (
-      <Layout title="Administration" extended>
+      <Layout title={t('admin.title')} extended>
         <div className="bg-[#f2f2f2] min-h-screen">
           <div className="grid grid-cols-[repeat(auto-fit,375px)] justify-center gap-6 overflow-auto p-4 lg:p-14 pt-[200px] pb-[100px]">
             {Array.from({ length: 9 }, (_, i) => (
@@ -87,7 +90,7 @@ const Admin = () => {
     const isSearchActive = filteredPois.length >= 0 && allPois === filteredPois
 
     return (
-      <Layout title="Administration" extended>
+      <Layout title={t('admin.title')} extended>
         <div className="bg-[#f2f2f2] min-h-screen pt-[100px] lg:pt-0 lg:min-h-[calc(100vh-180px)] flex flex-col items-center justify-center gap-6">
           <img
             src={
@@ -95,11 +98,11 @@ const Admin = () => {
                 ? '/undraw_location_search_re_ttoj.svg'
                 : '/undraw_no_data_re_kwbl.svg'
             }
-            alt={isSearchActive ? 'No search results' : 'No data available'}
+            alt={isSearchActive ? t('admin.noSearchResultsAlt') : t('admin.noDataAlt')}
             className="w-[300px]"
           />
           <h2 className="text-3xl font-bold font-merryweather">
-            {isSearchActive ? 'No results found' : 'No data available'}
+            {isSearchActive ? t('admin.noSearchResults') : t('admin.noData')}
           </h2>
         </div>
       </Layout>
@@ -107,7 +110,7 @@ const Admin = () => {
   }
 
   return (
-    <Layout title="Administration" extended>
+    <Layout title={t('admin.title')} extended>
       <div className="bg-[#f2f2f2] min-h-screen flex flex-col">
         <div className="grid grid-cols-[repeat(auto-fit,375px)] justify-center gap-6 overflow-auto p-4 lg:p-14 pt-[200px] pb-6">
           {displayPois.map((poi) => (

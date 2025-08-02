@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import {
   AdvancedMarker,
   ControlPosition,
@@ -14,6 +16,7 @@ import CustomInfoView from '../components/map/CustomInfoView'
 import { POI, usePOIStore } from '../store/poiStore'
 
 const Map = () => {
+  const { t } = useTranslation()
   const center = { lat: 47, lng: 20 }
 
   const [selectedPoi, setSelectedPoi] = useState<POI | null>(null)
@@ -37,7 +40,7 @@ const Map = () => {
   }, [getAllPoi])
 
   return (
-    <Layout title="Map">
+    <Layout title={t('map.title')}>
       <GoogleMap
         fullscreenControl={false}
         disableDefaultUI

@@ -125,7 +125,7 @@ const LoginForm = () => {
         </Button>
 
         <p className="font-lato self-center">
-          Don't have an account?{' '}
+          Don't have an account?
           <a href="/register" className="text-mainGreen underline">
             Sign Up
           </a>

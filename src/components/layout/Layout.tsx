@@ -1,5 +1,6 @@
 import { FunctionComponent, JSX, useCallback, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import {
@@ -39,6 +40,7 @@ interface LayoutComponentProps {
 }
 
 const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, children }) => {
+  const { t } = useTranslation()
   const { searchPoi } = usePOIStore()
 
   const debouncedSearch = useCallback(
@@ -50,7 +52,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
   const { email, authReset } = useAuthStore()
-  const username = email?.split('@')[0] || 'Unknown'
+  const username = email?.split('@')[0] || t('layout.unknown')
 
   const navigate = useNavigate()
 
@@ -87,7 +89,11 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
               )}
             </button>
             <div className="w-full px-5 flex items-center justify-center mb-6">
-              <img src="/street-map.png" alt="Street map" className="w-20" />
+              <img
+                src="/street-map.png"
+                alt={t('layout.altText.streetMap')}
+                className="w-20"
+              />
             </div>
             <Dropdown className="w-full flex justify-center font-lato">
               <DropdownTrigger>
@@ -100,7 +106,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                   )}
                 </div>
               </DropdownTrigger>
-              <DropdownMenu aria-label="Account">
+              <DropdownMenu aria-label={t('layout.dropdown.accountAriaLabel')}>
                 <DropdownItem key="profile" showDivider isDisabled>
                   <div className="flex flex-col">
                     <span>{username}</span>
@@ -112,7 +118,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                   key="profile-btn"
                   onPress={() => navigate('/profile')}
                 >
-                  Profile
+                  {t('layout.dropdown.profile')}
                 </DropdownItem>
                 <DropdownItem
                   color="danger"
@@ -124,7 +130,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                     navigate('/login')
                   }}
                 >
-                  Log Out
+                  {t('layout.dropdown.logout')}
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -132,19 +138,19 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
             <span className="flex flex-col w-full">
               <LayoutButton
                 href="/"
-                text="Dashboard"
+                text={t('layout.navigation.dashboard')}
                 icon={<HomeIcon />}
                 collapsed={!isExpanded}
               />
               <LayoutButton
                 href="/map"
-                text="Map"
+                text={t('layout.navigation.map')}
                 icon={<MapPinIcon />}
                 collapsed={!isExpanded}
               />
               <LayoutButton
                 href="/administration"
-                text="Administration"
+                text={t('layout.navigation.administration')}
                 icon={<Cog6ToothIcon />}
                 collapsed={!isExpanded}
               />
@@ -163,7 +169,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                   <span className="h-[1px] w-full bg-[#70757A]"></span>
                   <div className="flex flex-row place-content-between">
                     <Input
-                      placeholder="Search for..."
+                      placeholder={t('layout.searchPlaceholder')}
                       className="max-w-[300px]"
                       variant="bordered"
                       startContent={<MagnifyingGlassIcon className="w-6 h-6 text-gray-500" />}
@@ -175,7 +181,7 @@ const Layout: FunctionComponent<LayoutComponentProps> = ({ title, extended, chil
                       radius="sm"
                       onPress={handleAddNew}
                     >
-                      <PlusIcon className="w-6 h-6" /> Add New
+                      <PlusIcon className="w-6 h-6" /> {t('layout.addNewButton')}
                     </Button>
                   </div>
                 </>

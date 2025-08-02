@@ -1,6 +1,8 @@
 import { create } from 'zustand/index'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
+import i18n from '../i18n'
+
 interface SettingStore {
   theme: 'light' | 'dark'
   toggleTheme: () => void
@@ -27,7 +29,12 @@ export const useSettingStore = create<SettingStore>()(
         set({ theme: get().theme === 'light' ? 'dark' : 'light' })
       },
       toggleLanguage: () => {
-        set({ language: get().language === 'English' ? 'Hungarian' : 'English' })
+        const newLanguage = get().language === 'English' ? 'Hungarian' : 'English'
+        const i18nLanguageCode = newLanguage === 'English' ? 'en' : 'hu'
+
+        i18n.changeLanguage(i18nLanguageCode)
+
+        set({ language: newLanguage })
       }
     }),
     { name: 'settings-store', storage: createJSONStorage(() => sessionStorage) }
