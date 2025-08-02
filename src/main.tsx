@@ -7,6 +7,7 @@ import { APIProvider } from '@vis.gl/react-google-maps'
 
 import Router from './Router'
 
+import './i18n'
 import './main.css'
 
 createRoot(document.querySelector('body')!).render(
