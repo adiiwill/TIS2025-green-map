@@ -12,8 +12,8 @@ const Admin = () => {
   const { t } = useTranslation()
   const { filteredPois, getPaginatedPoi } = usePOIStore()
 
-  const [allPois, setAllPois] = useState<POI[]>([]) // Store all POIs (paginated or filtered)
-  const [displayPois, setDisplayPois] = useState<POI[]>([]) // Current page of POIs to display
+  const [allPois, setAllPois] = useState<POI[]>([])
+  const [displayPois, setDisplayPois] = useState<POI[]>([])
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
 
@@ -25,10 +25,6 @@ const Admin = () => {
   useEffect(() => {
     setPage(0)
   }, [filteredPois])
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [page])
 
   useEffect(() => {
     if (filteredPois.length === 0) {
@@ -53,7 +49,7 @@ const Admin = () => {
 
       fetchPois()
     }
-  }, [getPaginatedPoi, page, filteredPois.length])
+  }, [getPaginatedPoi, page])
 
   useEffect(() => {
     if (filteredPois.length > 0) {
@@ -91,7 +87,7 @@ const Admin = () => {
 
     return (
       <Layout title={t('admin.title')} extended>
-        <div className="bg-[#f2f2f2] min-h-screen pt-[100px] lg:pt-0 lg:min-h-[calc(100vh-180px)] flex flex-col items-center justify-center gap-6">
+        <div className="bg-[#f2f2f2] dark:bg-bgDark min-h-screen pt-[100px] lg:pt-0 lg:min-h-[calc(100vh-170px)] flex flex-col items-center justify-center gap-6">
           <img
             src={
               isSearchActive

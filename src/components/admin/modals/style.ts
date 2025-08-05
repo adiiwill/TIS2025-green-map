@@ -29,4 +29,8 @@ export const CustomPhoneInput = styled(PhoneInput)<{ $theme: 'dark' | 'light' }>
     background: ${(props) => (props.$theme === 'dark' ? '#171717' : '#fff')} !important;
     color: ${(props) => (props.$theme === 'dark' ? '#fff' : '#000')} !important;
   }
+
+  .react-international-phone-country-selector-dropdown__list-item:hover {
+    background: ${(props) => (props.$theme === 'dark' ? 'gray' : '#fff')} !important;
+  }
 `

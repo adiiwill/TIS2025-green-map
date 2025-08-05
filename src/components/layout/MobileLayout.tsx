@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useCallback, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -11,6 +11,7 @@ import {
   PlusIcon,
   UserIcon
 } from '@heroicons/react/24/outline'
+import { debounce } from 'lodash'
 
 import MobileLayoutLink from './MobileLayoutLink'
 import { usePOIStore } from '../../store/poiStore'
@@ -34,18 +35,26 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
     setIsAddModalOpen(false)
   }
 
+  const debouncedSearch = useCallback(
+    debounce((value) => searchPoi(value), 800),
+    [searchPoi]
+  )
+
   return (
     <>
       {extended && (
-        <div className="h-[180px] w-full fixed z-20 bg-white drop-shadow-md flex flex-col justify-center items-center p-6 gap-5">
+        <div className="h-[180px] w-full fixed z-20 bg-white dark:bg-fgDark drop-shadow-md flex flex-col justify-center items-center p-6 gap-5">
           <Input
             placeholder={t('mobileLayout.searchPlaceholder')}
             className="text-2xl"
+            classNames={{
+              inputWrapper: 'dark:!bg-bgDark'
+            }}
             variant="bordered"
             startContent={<MagnifyingGlassIcon className="w-8 h-8 text-gray-500" />}
             radius="sm"
             size="lg"
-            onChange={(e) => searchPoi(e.target.value)}
+            onChange={(e) => debouncedSearch(e.target.value)}
           />
           <Button
             className="flex items-center gap-1 bg-mainGreen text-white text-2xl p-6 w-full"
