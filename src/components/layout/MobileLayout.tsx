@@ -56,7 +56,7 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
           </Button>
         </div>
       )}
-      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 px-3 w-[95%] max-w-[360px] h-[75px] font-bold font-merryweather bg-white drop-shadow-md rounded-sm flex items-center place-content-around gap-3">
+      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 px-3 w-[95%] max-w-[360px] h-[75px] font-bold font-merryweather bg-white dark:bg-fgDark drop-shadow-md rounded-sm flex items-center place-content-around gap-3">
         <MobileLayoutLink
           href="/"
           text={t('mobileLayout.navigation.home')}

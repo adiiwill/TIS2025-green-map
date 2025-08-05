@@ -14,6 +14,7 @@ import { isValidPhoneNumber } from 'libphonenumber-js'
 import { CustomPhoneInput } from './style'
 import { POI } from '../../../store/poiStore'
 import { usePOIStore } from '../../../store/poiStore'
+import { useSettingStore } from '../../../store/settingStore'
 import { formatTime, parseTimeFormat } from '../../../utils/timeUtils'
 import FormInput from '../../common/FormInput'
 import { AutocompleteFormInput } from '../AutocompleteFormInput'
@@ -42,6 +43,7 @@ interface Inputs {
 const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) => {
   const { t } = useTranslation()
   const { updatePoi, addPoi } = usePOIStore()
+  const theme = useSettingStore().theme
 
   const [selectedPlace, setSelectedPlace] = useState<google.maps.places.Place | null>(null)
 
@@ -128,7 +130,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               error={errors.name}
               defaultValue={item && item.name}
               placeholder=" "
-              classNames={{ label: '!text-black font-merryweather text-md' }}
+              classNames={{ label: '!text-black font-merryweather text-md dark:!text-white' }}
               className="col-start-1 row-start-1 w-[90%]"
             />
 
@@ -138,7 +140,9 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                 labelPlacement="outside"
                 placeholder=" "
                 defaultSelectedKeys={item?.category ? [item.category] : []}
-                classNames={{ label: '!text-black font-merryweather text-md' }}
+                classNames={{
+                  label: '!text-black font-merryweather text-md dark:!text-white'
+                }}
                 {...register('category', {
                   required: { value: true, message: t('poiFormModal.validation.required') }
                 })}
@@ -173,7 +177,10 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               error={errors.description}
               defaultValue={item && item.description}
               placeholder=" "
-              classNames={{ label: '!text-black font-merryweather text-md' }}
+              classNames={{
+                label:
+                  '!text-black font-merryweather text-md dark:!text-white dark:!text-white'
+              }}
               className="col-start-1 row-start-4 w-[90%]"
             />
 
@@ -189,7 +196,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               error={errors.email}
               defaultValue={item && item.email}
               placeholder={t('poiFormModal.placeholders.email')}
-              classNames={{ label: '!text-black font-merryweather text-md' }}
+              classNames={{ label: '!text-black font-merryweather text-md dark:!text-white' }}
               className="col-start-1 row-start-5 w-[90%]"
             />
 
@@ -220,7 +227,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               error={errors.subCategory}
               defaultValue={item && item.subCategory}
               placeholder=" "
-              classNames={{ label: '!text-black font-merryweather text-md' }}
+              classNames={{ label: '!text-black font-merryweather text-md dark:!text-white' }}
               className="col-start-2 row-start-3 w-[90%]"
             />
             <FormInput
@@ -235,7 +242,7 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
               error={errors.url}
               defaultValue={item && item.url}
               placeholder={t('poiFormModal.placeholders.url')}
-              classNames={{ label: '!text-black font-merryweather text-md' }}
+              classNames={{ label: '!text-black font-merryweather text-md dark:!text-white' }}
               className="col-start-2 row-start-4 w-[90%]"
             />
 
@@ -256,19 +263,20 @@ const PoiFormModal: FunctionComponent<PoiFormModalProps> = ({ item, onClose }) =
                 defaultValue={item && item.phoneNumber}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <CustomPhoneInput
+                    $theme={theme}
                     defaultCountry="hu"
                     value={value}
                     onBlur={onBlur}
                     onChange={onChange}
-                    className="font-lato mt-1 w-full"
+                    className="font-lato mt-1 w-full dark:!bg-[#27272a]"
                   />
                 )}
               />
               <p className="text-red-600 text-sm mt-1">{errors.phoneNumber?.message}</p>
             </div>
 
-            <div className="flex flex-row items-start gap-1 col-start-2 row-start-5 w-[90%] xl:-translate-y-[2px] relative pb-6">
-              <div className="w-full">
+            <div className="flex flex-row items-start gap-1 col-start-2 row-start-5 w-[90%] xl:-translate-y-[2px] relative">
+              <div className="w-full h-full">
                 <Controller
                   name="openingTime"
                   control={control}

@@ -7,7 +7,7 @@ const NotFound = () => {
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center h-screen font-merryweather pr-3 lg:pr-[250px] pl-3 bg-[#e5e7eb]">
-      <img src="/not-found-404.svg" alt={t('notFound.imageAlt')} />
+      <img src="/not-found-404.svg" className="max-h-[400px]" alt={t('notFound.imageAlt')} />
       <img
         src="/wave-registration.svg"
         alt={t('notFound.waveAlt')}

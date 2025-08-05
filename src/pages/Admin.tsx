@@ -75,7 +75,7 @@ const Admin = () => {
   if (loading) {
     return (
       <Layout title={t('admin.title')} extended>
-        <div className="bg-[#f2f2f2] min-h-screen">
+        <div className="bg-[#f2f2f2] dark:bg-bgDark min-h-screen">
           <div className="grid grid-cols-[repeat(auto-fit,375px)] justify-center gap-6 overflow-auto p-4 lg:p-14 pt-[200px] pb-[100px]">
             {Array.from({ length: 9 }, (_, i) => (
               <PoiSkeleton key={i} />
@@ -111,7 +111,7 @@ const Admin = () => {
 
   return (
     <Layout title={t('admin.title')} extended>
-      <div className="bg-[#f2f2f2] min-h-screen flex flex-col">
+      <div className="bg-[#f2f2f2] dark:bg-bgDark min-h-screen flex flex-col">
         <div className="grid grid-cols-[repeat(auto-fit,375px)] justify-center gap-6 overflow-auto p-4 lg:p-14 pt-[200px] pb-6">
           {displayPois.map((poi) => (
             <PoiItemTile key={poi.id} item={poi} />

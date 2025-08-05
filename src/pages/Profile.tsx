@@ -15,7 +15,7 @@ const Profile = () => {
 
   return (
     <Layout title={t('profile.title')}>
-      <div className="bg-[#f2f2f2] min-h-screen lg:min-h-[calc(100vh-80px)] p-16">
+      <div className="bg-fgWhite dark:bg-bgDark dark:text-white min-h-screen lg:min-h-[calc(100vh-80px)] p-16 pb-36">
         <div className="flex gap-12 md:gap-28 mb-18 flex-col md:flex-row items-center">
           <div className="w-52 h-52 aspect-square bg-[#d9d9d9] rounded-full flex items-center justify-center border-[#3F3D56] border-2">
             <span className="font-merryweather text-black text-8xl font-bold">
@@ -34,7 +34,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="flex flex-col gap-14">
-          <span className="text-5xl text-[#3f3d56] font-merryweather font-bold">
+          <span className="text-5xl text-mainGray dark:text-white font-merryweather font-bold">
             {t('profile.settings')}
           </span>
           <div className="flex flex-col gap-3">

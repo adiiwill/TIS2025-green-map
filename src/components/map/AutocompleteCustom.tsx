@@ -73,7 +73,7 @@ export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
       />
 
       {suggestions.length > 0 && (
-        <Listbox className="bg-white border-2 mt-1 border-gray-200 text-xl w-full md:w-min rounded-xl">
+        <Listbox className="bg-white dark:bg-bgDark border-2 mt-1 border-gray-200 dark:border-fgDark text-xl w-full md:w-min rounded-xl">
           {suggestions.map((suggestion, index) => {
             return (
               <ListboxItem

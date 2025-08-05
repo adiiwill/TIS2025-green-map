@@ -24,24 +24,24 @@ const CustomInfoView: FunctionComponent<CustomInfoViewProps> = ({ selectedPoi })
       <p className="font-lato text-base italic">{selectedPoi.address}</p>
 
       <div className="flex flex-col mt-2 font-lato text-base">
-        <span className="text-sm text-white bg-gray-400 font-bold p-1">
+        <span className="text-sm text-white bg-gray-400 dark:bg-transparent dark:border-white dark:border-b-1 dark:border-dotted font-bold p-1">
           {t('customInfoView.description')}
         </span>
-        <p className="bg-gray-100 p-1">{selectedPoi.description}</p>
+        <p className="bg-gray-100 dark:bg-transparent p-1">{selectedPoi.description}</p>
       </div>
 
       <div className="flex flex-col mt-2 font-lato text-base">
-        <span className="text-sm text-white bg-gray-400 font-bold p-1">
+        <span className="text-sm text-white bg-gray-400 font-bold p-1 dark:bg-transparent dark:border-white dark:border-b-1 dark:border-dotted">
           {t('customInfoView.openingHours')}
         </span>
-        <p className="bg-gray-100 p-1">{selectedPoi.openingHours}</p>
+        <p className="bg-gray-100 dark:bg-transparent p-1">{selectedPoi.openingHours}</p>
       </div>
 
       <div className="flex flex-col mt-2 font-lato text-base">
-        <span className="text-sm text-white bg-gray-400 font-bold p-1">
+        <span className="text-sm text-white bg-gray-400 font-bold p-1 dark:bg-transparent dark:border-white dark:border-b-1 dark:border-dotted">
           {t('customInfoView.contact')}
         </span>
-        <div className="bg-gray-100 p-1 flex flex-col underline">
+        <div className="bg-gray-100 dark:bg-transparent p-1 flex flex-col underline">
           <a
             href={`https://${selectedPoi.url}`}
             target="_blank"

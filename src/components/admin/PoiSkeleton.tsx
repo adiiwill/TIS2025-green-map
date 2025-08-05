@@ -2,8 +2,8 @@ import { Skeleton } from '@heroui/react'
 
 const PoiSkeleton = () => {
   return (
-    <div className="w-full max-w-[375px] min-w-[300px] h-[325px] bg-white rounded-md p-4 drop-shadow-md relative">
-      <div className="flex items-center justify-between bg-[#f2f2f2] p-3 rounded-md">
+    <div className="w-full max-w-[375px] min-w-[300px] h-[325px] bg-white dark:bg-fgDark rounded-md p-4 drop-shadow-md relative">
+      <div className="flex items-center justify-between bg-[#f2f2f2] dark:bg-bgDark p-3 rounded-md">
         <Skeleton className="h-8 w-32 rounded-lg" />
         <Skeleton className="h-8 w-8 rounded-lg" />
       </div>

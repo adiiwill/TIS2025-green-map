@@ -86,7 +86,7 @@
     "viewButton": "Megtekintés"
   },
   "dashboard": {
-    "title": "Műszerfal",
+    "title": "Vezérlőpult",
     "pois": "POI-k"
   },
   "profile": {
@@ -114,7 +114,7 @@
       "logout": "Kijelentkezés"
     },
     "navigation": {
-      "dashboard": "Műszerfal",
+      "dashboard": "Vezérlőpult",
       "map": "Térkép",
       "administration": "Adminisztráció"
     },
@@ -141,5 +141,10 @@
   },
   "autocomplete": {
     "searchPlaceholder": "Hely keresése"
+  },
+  "deleteModal": {
+    "confirmation": "Biztosan törli ezt a POI-t?",
+    "delete": "Törlés",
+    "cancel": "Mégse"
   }
 }

@@ -141,5 +141,10 @@
   },
   "autocomplete": {
     "searchPlaceholder": "Search for a place"
+  },
+  "deleteModal": {
+    "confirmation": "Are you sure you want to delete this POI?",
+    "delete": "Delete",
+    "cancel": "Cancel"
   }
 }

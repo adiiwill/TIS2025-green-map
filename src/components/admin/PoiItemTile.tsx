@@ -27,8 +27,8 @@ const PoiItemTile: FunctionComponent<PoiItemTileProps> = ({ item }) => {
   const { setType } = useModalStore()
 
   return (
-    <div className="w-full max-w-[375px] min-w-[300px] h-[325px] bg-white rounded-md p-4 drop-shadow-md relative">
-      <div className="flex items-center justify-between bg-[#f2f2f2] p-3 rounded-md">
+    <div className="w-full max-w-[375px] min-w-[300px] h-[325px] bg-white dark:bg-fgDark dark:text-white rounded-md p-4 drop-shadow-md relative">
+      <div className="flex items-center justify-between bg-[#f2f2f2] dark:bg-bgDark p-3 rounded-md">
         <span className="font-merryweather text-2xl truncate pr-2 flex-1 min-w-0">
           {item.name}
         </span>
@@ -82,7 +82,7 @@ const PoiItemTile: FunctionComponent<PoiItemTileProps> = ({ item }) => {
       <Button
         variant="bordered"
         radius="sm"
-        className="w-full mt-5 font-merryweather text-2xl border-black border-1 p-6"
+        className="w-full mt-5 font-merryweather text-2xl border-black dark:border-white border-1 p-6"
         onPress={() => {
           setType('review')
           onOpen()

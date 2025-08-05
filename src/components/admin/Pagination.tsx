@@ -15,7 +15,9 @@ const PageNumber: FC<PageNumberProps> = ({ page, setPage, isActive }) => {
       onClick={() => setPage(page)}
       className={cn(
         'px-2 py-0 font-merryweather font-bold cursor-pointer text-2xl rounded-sm transition-colors',
-        isActive ? 'text-white bg-mainGreen' : 'text-mainGray hover:bg-gray-100'
+        isActive
+          ? 'text-white bg-mainGreen'
+          : 'text-mainGray dark:text-gray-300 hover:bg-gray-600'
       )}
     >
       {page + 1}
@@ -39,7 +41,10 @@ const Pagination: FC<PaginationProps> = ({ page, totalPages, setPage }) => {
 
     if (page > 2) {
       pages.push(
-        <span key="ellipsis-start" className="px-0.5 font-merryweather text-2xl text-mainGray">
+        <span
+          key="ellipsis-start"
+          className="px-0.5 font-merryweather text-2xl text-mainGray dark:text-white"
+        >
           ...
         </span>
       )
@@ -56,7 +61,10 @@ const Pagination: FC<PaginationProps> = ({ page, totalPages, setPage }) => {
 
     if (page < totalPages - 3) {
       pages.push(
-        <span key="ellipsis-end" className="px-0.5 font-merryweather text-2xl text-mainGray">
+        <span
+          key="ellipsis-end"
+          className="px-0.5 font-merryweather text-2xl text-mainGray dark:text-white"
+        >
           ...
         </span>
       )
@@ -80,7 +88,7 @@ const Pagination: FC<PaginationProps> = ({ page, totalPages, setPage }) => {
     <div className="inline-flex items-center text-mainGray gap-1">
       <ChevronLeftIcon
         className={cn(
-          'w-8 cursor-pointer transition-opacity',
+          'w-8 cursor-pointer transition-opacity dark:text-gray-200',
           page === 0 && 'opacity-30 pointer-events-none'
         )}
         onClick={() => page > 0 && setPage(page - 1)}
@@ -90,7 +98,7 @@ const Pagination: FC<PaginationProps> = ({ page, totalPages, setPage }) => {
 
       <ChevronRightIcon
         className={cn(
-          'w-8 cursor-pointer transition-opacity',
+          'w-8 cursor-pointer transition-opacity dark:text-gray-200',
           page >= totalPages - 1 && 'opacity-30 pointer-events-none'
         )}
         onClick={() => page < totalPages - 1 && setPage(page + 1)}

@@ -15,8 +15,8 @@ const MobileLayoutLink: FunctionComponent<MobileLayoutLinkProps> = ({ text, icon
     <NavLink
       className={({ isActive }) =>
         cn(
-          'flex flex-col justify-center items-center gap-0.5 cursor-pointer',
-          isActive && 'text-mainGreen'
+          'flex flex-col justify-center items-center gap-0.5 cursor-pointer dark:text-white',
+          isActive && 'text-mainGreen dark:text-mainGreen'
         )
       }
       to={href}
