@@ -9,6 +9,8 @@ interface SettingStore {
 
   language: 'English' | 'Hungarian'
   toggleLanguage: () => void
+
+  settingReset: () => void
 }
 
 interface State {
@@ -35,6 +37,10 @@ export const useSettingStore = create<SettingStore>()(
         i18n.changeLanguage(i18nLanguageCode)
 
         set({ language: newLanguage })
+      },
+      settingReset: () => {
+        set(initialState)
+        console.log('Settings reset')
       }
     }),
     { name: 'settings-store', storage: createJSONStorage(() => sessionStorage) }
