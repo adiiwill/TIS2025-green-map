@@ -40,7 +40,6 @@ export const useSettingStore = create<SettingStore>()(
       },
       settingReset: () => {
         set(initialState)
-        console.log('Settings reset')
       }
     }),
     { name: 'settings-store', storage: createJSONStorage(() => sessionStorage) }
