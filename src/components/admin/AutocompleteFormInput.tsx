@@ -1,5 +1,7 @@
 import { FormEvent, FunctionComponent, useCallback, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import { cn, Input, Listbox, ListboxItem } from '@heroui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
@@ -21,6 +23,7 @@ export const AutocompleteFormInput: FunctionComponent<AutocompleteFormInputProps
   onBlur,
   value
 }) => {
+  const { t } = useTranslation()
   const places = useMapsLibrary('places')
 
   const [inputValue, setInputValue] = useState<string>(value as string)
@@ -62,23 +65,23 @@ export const AutocompleteFormInput: FunctionComponent<AutocompleteFormInputProps
   }, [])
 
   return (
-    <div className={cn(className || 'w-full p-5 gap-0.5')}>
+    <div className={cn(className || 'w-full gap-0.5')}>
       <Input
         value={inputValue}
         onInput={handleInput}
         onFocus={handleFocus}
-        placeholder="Search for a place"
+        placeholder={t('autocompleteInput.placeholder')}
         className="w-full"
         variant="faded"
         radius="sm"
-        size="lg"
+        size="md"
         startContent={<MagnifyingGlassIcon className="w-6 h-6 text-gray-500" />}
         onChange={() => onChange}
         onBlur={() => onBlur}
       />
 
       {suggestions.length > 0 && hasUserInteracted && (
-        <Listbox className="bg-white border-2 mt-1 border-gray-200 text-xl w-full md:w-min rounded-xl">
+        <Listbox className="bg-white dark:bg-bgDark border-2 mt-1 border-gray-200 dark:border-fgDark absolute text-xl w-full md:w-min rounded-xl">
           {suggestions.map((suggestion, index) => {
             return (
               <ListboxItem

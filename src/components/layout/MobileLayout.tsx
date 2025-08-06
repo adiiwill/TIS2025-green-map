@@ -1,4 +1,6 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useCallback, useState } from 'react'
+
+import { useTranslation } from 'react-i18next'
 
 import { Button, Input, Modal } from '@heroui/react'
 import {
@@ -9,6 +11,7 @@ import {
   PlusIcon,
   UserIcon
 } from '@heroicons/react/24/outline'
+import { debounce } from 'lodash'
 
 import MobileLayoutLink from './MobileLayoutLink'
 import { usePOIStore } from '../../store/poiStore'
@@ -19,6 +22,7 @@ interface MobileLayoutProps {
 }
 
 const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
+  const { t } = useTranslation()
   const { searchPoi } = usePOIStore()
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
@@ -31,33 +35,45 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
     setIsAddModalOpen(false)
   }
 
+  const debouncedSearch = useCallback(
+    debounce((value) => searchPoi(value), 800),
+    [searchPoi]
+  )
+
   return (
     <>
       {extended && (
-        <div className="h-[180px] w-full fixed z-20 bg-white drop-shadow-md flex flex-col justify-center items-center p-6 gap-5">
+        <div className="h-[180px] w-full fixed z-20 bg-white dark:bg-fgDark drop-shadow-md flex flex-col justify-center items-center p-6 gap-5">
           <Input
-            placeholder="Search for..."
+            placeholder={t('mobileLayout.searchPlaceholder')}
             className="text-2xl"
+            classNames={{
+              inputWrapper: 'dark:!bg-bgDark'
+            }}
             variant="bordered"
             startContent={<MagnifyingGlassIcon className="w-8 h-8 text-gray-500" />}
             radius="sm"
             size="lg"
-            onChange={(e) => searchPoi(e.target.value)}
+            onChange={(e) => debouncedSearch(e.target.value)}
           />
           <Button
             className="flex items-center gap-1 bg-mainGreen text-white text-2xl p-6 w-full"
             radius="sm"
             onPress={handleAddNew}
           >
-            <PlusIcon className="w-6 h-6" /> Add New
+            <PlusIcon className="w-6 h-6" /> {t('mobileLayout.addNew')}
           </Button>
         </div>
       )}
-      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 px-3 w-[95%] max-w-[360px] h-[75px] font-bold font-merryweather bg-white drop-shadow-md rounded-sm flex items-center place-content-around gap-3">
-        <MobileLayoutLink href="/" text={'Home'} icon={<HomeIcon className="w-6 h-6" />} />
+      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 px-3 w-[95%] max-w-[360px] h-[75px] font-bold font-merryweather bg-white dark:bg-fgDark drop-shadow-md rounded-sm flex items-center place-content-around gap-3">
+        <MobileLayoutLink
+          href="/"
+          text={t('mobileLayout.navigation.home')}
+          icon={<HomeIcon className="w-6 h-6" />}
+        />
         <MobileLayoutLink
           href="/administration"
-          text={'Admin'}
+          text={t('mobileLayout.navigation.admin')}
           icon={<Cog6ToothIcon className="w-6 h-6" />}
         />
         <button
@@ -66,10 +82,14 @@ const MobileLayout: FunctionComponent<MobileLayoutProps> = ({ extended }) => {
         >
           <PlusIcon className="w-12 h-12 text-white" />
         </button>
-        <MobileLayoutLink href="/map" text={'Map'} icon={<MapPinIcon className="w-6 h-6" />} />
+        <MobileLayoutLink
+          href="/map"
+          text={t('mobileLayout.navigation.map')}
+          icon={<MapPinIcon className="w-6 h-6" />}
+        />
         <MobileLayoutLink
           href="/profile"
-          text={'Profile'}
+          text={t('mobileLayout.navigation.profile')}
           icon={<UserIcon className="w-6 h-6" />}
         />
       </div>

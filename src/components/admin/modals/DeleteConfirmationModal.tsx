@@ -1,5 +1,7 @@
 import { FunctionComponent } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import { Button, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/react'
 import { TrashIcon } from '@heroicons/react/24/solid'
 
@@ -14,6 +16,7 @@ const DeleteConfirmationModal: FunctionComponent<DeleteConfirmationModalProps> =
   id,
   onClose
 }) => {
+  const { t } = useTranslation()
   const { deletePoi } = usePOIStore()
 
   const handleDelete = () => {
@@ -29,7 +32,7 @@ const DeleteConfirmationModal: FunctionComponent<DeleteConfirmationModalProps> =
         </div>
       </ModalHeader>
       <ModalBody className="items-center font-merryweather">
-        <p>Are you sure you want to delete this POI?</p>
+        <p>{t('deleteModal.confirmation')}</p>
       </ModalBody>
       <ModalFooter>
         <Button
@@ -40,7 +43,7 @@ const DeleteConfirmationModal: FunctionComponent<DeleteConfirmationModalProps> =
           autoFocus
           className="font-lato font-bold text-gray-600 text-md px-8"
         >
-          Cancel
+          {t('deleteModal.cancel')}
         </Button>
         <Button
           color="danger"
@@ -49,7 +52,7 @@ const DeleteConfirmationModal: FunctionComponent<DeleteConfirmationModalProps> =
           onPress={handleDelete}
           className="font-lato font-bold text-md px-8"
         >
-          Delete
+          {t('deleteModal.delete')}
         </Button>
       </ModalFooter>
     </ModalContent>

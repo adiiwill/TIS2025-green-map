@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Input, ScrollShadow } from '@heroui/react'
 import { PlusIcon } from '@heroicons/react/24/outline'
@@ -7,11 +7,16 @@ import { AnimatePresence, motion } from 'framer-motion'
 import ClearDoneButton from './ClearDoneButton'
 import { StyledButton } from './style'
 import TodoComponent from './TodoComponent'
-import { type Todo, useTodoStore } from '../../store/todoStore'
+import { Todo, useTodoStore } from '../../store/todoStore'
 
 import './todostyle.css'
 
 const TodoApp = () => {
+  useEffect(() => {
+    const root = window.document.documentElement
+    root.classList.remove('dark')
+  }, [])
+
   /* --- VARIABLES --- */
 
   const [inputValue, setInputValue] = useState('')

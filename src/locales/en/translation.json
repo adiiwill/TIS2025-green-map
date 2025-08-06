@@ -1,0 +1,150 @@
+{
+  "notFound": {
+    "title": "Page not found",
+    "backLink": "Back to the site",
+    "imageAlt": "Page not found",
+    "waveAlt": "Decor wave"
+  },
+  "admin": {
+    "title": "Administration",
+    "noSearchResults": "No results found",
+    "noData": "No data available",
+    "noSearchResultsAlt": "No search results",
+    "noDataAlt": "No data available"
+  },
+  "poiFormModal": {
+    "editingTitle": "Editing \"{{name}}\"",
+    "addTitle": "Add new",
+    "fields": {
+      "name": "Name",
+      "category": "Category",
+      "subcategory": "Subcategory",
+      "description": "Description",
+      "email": "E-mail",
+      "address": "Address",
+      "url": "URL",
+      "phoneNumber": "Phone number",
+      "openingTime": "Opening time",
+      "closingTime": "Closing time"
+    },
+    "categories": {
+      "restaurants": "Restaurants & Cafés",
+      "retail": "Retail & Shopping",
+      "entertainment": "Entertainment & Leisure",
+      "health": "Health & Wellness",
+      "cultural": "Cultural & Historical Sites",
+      "business": "Business & Services"
+    },
+    "placeholders": {
+      "email": "Eg. myemail@gmail.com",
+      "url": "Eg. www.example.com"
+    },
+    "validation": {
+      "required": "Field is required",
+      "invalidEmail": "Invalid email address",
+      "invalidUrl": "Enter a valid URL",
+      "invalidPhone": "Please enter a valid phone number"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "modify": "Modify",
+      "addNew": "Add new"
+    }
+  },
+  "poiReviewModal": {
+    "fields": {
+      "category": "Category",
+      "subcategory": "Subcategory",
+      "description": "Description",
+      "url": "URL",
+      "email": "E-mail",
+      "phoneNumber": "Phone number",
+      "address": "Address",
+      "openingHours": "Opening hours",
+      "longitude": "Longitude",
+      "latitude": "Latitude"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "edit": "Edit"
+    }
+  },
+  "autocompleteInput": {
+    "placeholder": "Search for a place"
+  },
+  "poiItemTile": {
+    "dropdownAriaLabel": "POI Actions",
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "fields": {
+      "category": "Category",
+      "longitude": "Longitude",
+      "latitude": "Latitude"
+    },
+    "viewButton": "View"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "pois": "Pois"
+  },
+  "profile": {
+    "title": "Profile",
+    "unknown": "Unknown",
+    "username": "Username",
+    "email": "E-mail",
+    "settings": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "logout": "Logout",
+    "languages": {
+      "english": "English",
+      "hungarian": "Hungarian"
+    }
+  },
+  "layout": {
+    "unknown": "Unknown",
+    "altText": {
+      "streetMap": "Street map"
+    },
+    "dropdown": {
+      "accountAriaLabel": "Account",
+      "profile": "Profile",
+      "logout": "Log Out"
+    },
+    "navigation": {
+      "dashboard": "Dashboard",
+      "map": "Map",
+      "administration": "Administration"
+    },
+    "searchPlaceholder": "Search for...",
+    "addNewButton": "Add New"
+  },
+  "mobileLayout": {
+    "searchPlaceholder": "Search for...",
+    "addNew": "Add New",
+    "navigation": {
+      "home": "Home",
+      "admin": "Admin",
+      "map": "Map",
+      "profile": "Profile"
+    }
+  },
+  "map": {
+    "title": "Map"
+  },
+  "customInfoView": {
+    "description": "Description",
+    "openingHours": "Opening hours",
+    "contact": "Contact"
+  },
+  "autocomplete": {
+    "searchPlaceholder": "Search for a place"
+  },
+  "deleteModal": {
+    "confirmation": "Are you sure you want to delete this POI?",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  }
+}

@@ -1,6 +1,8 @@
 import { create } from 'zustand/index'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
+import { useSettingStore } from './settingStore'
+
 interface AuthStore {
   token: string | null
   setToken: (token: string) => void
@@ -19,6 +21,8 @@ const initialState: State = {
   email: null
 }
 
+const settingStore = useSettingStore
+
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
@@ -27,7 +31,10 @@ export const useAuthStore = create<AuthStore>()(
       setToken: (token: string) => set({ token }),
       email: null,
       setEmail: (email: string) => set({ email }),
-      authReset: () => set(initialState)
+      authReset: () => {
+        set(initialState)
+        settingStore.getState().settingReset()
+      }
     }),
     { name: 'auth', storage: createJSONStorage(() => sessionStorage) }
   )

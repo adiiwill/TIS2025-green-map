@@ -1,0 +1,150 @@
+{
+  "notFound": {
+    "title": "Az oldal nem található",
+    "backLink": "Vissza az oldalra",
+    "imageAlt": "Az oldal nem található",
+    "waveAlt": "Dekoráció hullám"
+  },
+  "admin": {
+    "title": "Adminisztráció",
+    "noSearchResults": "Nincs találat",
+    "noData": "Nincs elérhető adat",
+    "noSearchResultsAlt": "Nincs keresési eredmény",
+    "noDataAlt": "Nincs elérhető adat"
+  },
+  "poiFormModal": {
+    "editingTitle": "\"{{name}}\" szerkesztése",
+    "addTitle": "Új hozzáadása",
+    "fields": {
+      "name": "Név",
+      "category": "Kategória",
+      "subcategory": "Alkategória",
+      "description": "Leírás",
+      "email": "E-mail",
+      "address": "Cím",
+      "url": "URL",
+      "phoneNumber": "Telefonszám",
+      "openingTime": "Nyitás",
+      "closingTime": "Zárás"
+    },
+    "categories": {
+      "restaurants": "Éttermek és Kávézók",
+      "retail": "Kereskedelem és Vásárlás",
+      "entertainment": "Szórakozás és Szabadidő",
+      "health": "Egészség és Wellness",
+      "cultural": "Kulturális és Történelmi Helyek",
+      "business": "Üzlet és Szolgáltatások"
+    },
+    "placeholders": {
+      "email": "Pl. myemail@gmail.com",
+      "url": "Pl. www.example.com"
+    },
+    "validation": {
+      "required": "A mező kitöltése kötelező",
+      "invalidEmail": "Érvénytelen e-mail cím",
+      "invalidUrl": "Adjon meg érvényes URL-t",
+      "invalidPhone": "Kérjük, adjon meg érvényes telefonszámot"
+    },
+    "buttons": {
+      "cancel": "Mégse",
+      "modify": "Módosítás",
+      "addNew": "Új hozzáadása"
+    }
+  },
+  "poiReviewModal": {
+    "fields": {
+      "category": "Kategória",
+      "subcategory": "Alkategória",
+      "description": "Leírás",
+      "url": "URL",
+      "email": "E-mail",
+      "phoneNumber": "Telefonszám",
+      "address": "Cím",
+      "openingHours": "Nyitvatartás",
+      "longitude": "Hosszúság",
+      "latitude": "Szélesség"
+    },
+    "buttons": {
+      "cancel": "Mégse",
+      "edit": "Szerkesztés"
+    }
+  },
+  "autocompleteInput": {
+    "placeholder": "Keresés helyre"
+  },
+  "poiItemTile": {
+    "dropdownAriaLabel": "POI Műveletek",
+    "actions": {
+      "edit": "Szerkesztés",
+      "delete": "Törlés"
+    },
+    "fields": {
+      "category": "Kategória",
+      "longitude": "Hosszúság",
+      "latitude": "Szélesség"
+    },
+    "viewButton": "Megtekintés"
+  },
+  "dashboard": {
+    "title": "Vezérlőpult",
+    "pois": "POI-k"
+  },
+  "profile": {
+    "title": "Profil",
+    "unknown": "Ismeretlen",
+    "username": "Felhasználónév",
+    "email": "E-mail",
+    "settings": "Beállítások",
+    "language": "Nyelv",
+    "theme": "Téma",
+    "logout": "Kijelentkezés",
+    "languages": {
+      "english": "Angol",
+      "hungarian": "Magyar"
+    }
+  },
+  "layout": {
+    "unknown": "Ismeretlen",
+    "altText": {
+      "streetMap": "Utcatérkép"
+    },
+    "dropdown": {
+      "accountAriaLabel": "Fiók",
+      "profile": "Profil",
+      "logout": "Kijelentkezés"
+    },
+    "navigation": {
+      "dashboard": "Vezérlőpult",
+      "map": "Térkép",
+      "administration": "Adminisztráció"
+    },
+    "searchPlaceholder": "Keresés...",
+    "addNewButton": "Új hozzáadása"
+  },
+  "mobileLayout": {
+    "searchPlaceholder": "Keresés...",
+    "addNew": "Új hozzáadása",
+    "navigation": {
+      "home": "Főoldal",
+      "admin": "Admin",
+      "map": "Térkép",
+      "profile": "Profil"
+    }
+  },
+  "map": {
+    "title": "Térkép"
+  },
+  "customInfoView": {
+    "description": "Leírás",
+    "openingHours": "Nyitvatartás",
+    "contact": "Kapcsolat"
+  },
+  "autocomplete": {
+    "searchPlaceholder": "Hely keresése"
+  },
+  "deleteModal": {
+    "confirmation": "Biztosan törli ezt a POI-t?",
+    "delete": "Törlés",
+    "cancel": "Mégse"
+  }
+}

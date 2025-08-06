@@ -1,5 +1,7 @@
 import { FormEvent, FunctionComponent, useCallback, useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import { Input, Listbox, ListboxItem } from '@heroui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
@@ -19,6 +21,7 @@ export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
   onBlur,
   value
 }) => {
+  const { t } = useTranslation()
   const places = useMapsLibrary('places')
 
   const [inputValue, setInputValue] = useState<string>(value as string)
@@ -47,8 +50,6 @@ export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
 
       setInputValue('')
 
-      // calling fetchFields invalidates the session-token, so we now have to call
-      // resetSession() so a new one gets created for further search
       resetSession()
 
       onPlaceSelect(place)
@@ -61,7 +62,7 @@ export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
       <Input
         value={inputValue}
         onInput={(event) => handleInput(event)}
-        placeholder="Search for a place"
+        placeholder={t('autocomplete.searchPlaceholder')}
         className="w-full"
         variant="faded"
         radius="sm"
@@ -72,7 +73,7 @@ export const AutocompleteCustom: FunctionComponent<AutocompleteCustomProps> = ({
       />
 
       {suggestions.length > 0 && (
-        <Listbox className="bg-white border-2 mt-1 border-gray-200 text-xl w-full md:w-min rounded-xl">
+        <Listbox className="bg-white dark:bg-bgDark border-2 mt-1 border-gray-200 dark:border-fgDark text-xl w-full md:w-min rounded-xl">
           {suggestions.map((suggestion, index) => {
             return (
               <ListboxItem
