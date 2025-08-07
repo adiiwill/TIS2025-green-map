@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@import "tailwindcss";
+@plugin '../hero.ts';
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-merryweather: "Merriweather Sans", sans-serif;
+    --font-lato: "Lato", sans-serif;
+
+    --color-mainGreen: #10B981;
+    --color-mainGray: #3F3D56;
+
+    --color-bgWhite: #f2f2f2;
+    --color-bgDark: #171717;
+
+    --color-fgWhite: #fff;
+    --color-fgDark: #3c4043;
+}
